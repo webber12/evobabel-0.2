@@ -6,10 +6,10 @@ if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
 
 $out='';
 
-if(isset($_GET['id'])&&(int)$_GET['id']!=0){
+if(isset($_REQUEST['id'])&&(int)$_REQUEST['id']!=0){
 	if(isset($params['rel_tv_id'])&&isset($params['lang_template_id'])){	
 		include_once('evoBabel.class.php');
-		$eB=new evoBabel($modx,(int)$_GET['id'],$params);
+		$eB=new evoBabel($modx,(int)$_REQUEST['id'],$params);
 
 		/*****************создаем версии********************/
 		if(isset($_GET['ebabel'])&&(int)$_GET['ebabel']!=0&&isset($_GET['parent'])&&(int)$_GET['parent']!=0){
