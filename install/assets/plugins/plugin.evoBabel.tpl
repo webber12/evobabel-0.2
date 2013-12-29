@@ -29,13 +29,13 @@ $eB=new evoBabel($modx,0,$params);
 switch ($e->name ) {
     case 'OnPageNotFound'://переадресация на нужную страницу 404, указать ее в модуле лексикона
 		$docid=0;
-		$id=$_SESSION['Страница не найдена'];
+		$id=$_SESSION['perevod']['Страница не найдена'];
 		$docid=(int)$id;
 		if($docid==0){
-			$id=$_SESSION['Главная страница'];
+			$id=$_SESSION['perevod']['Главная страница'];
 			$docid=(int)$id;
 			if($docid==0){
-				$id=$_SESSION['Корневая папка'];
+				$id=$_SESSION['perevod']['Корневая папка'];
 				$docid=(int)$id;
 			}
 		}
