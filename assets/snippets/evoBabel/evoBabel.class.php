@@ -46,6 +46,10 @@ private function update($flds,$table,$where){
 	return $this->modx->db->update($flds,$table,$where);
 }
 
+private function escape($a){
+	return $this->modx->db->escape($a);
+}
+
 private function insert($flds,$table){
 	return $this->modx->db->insert($flds,$table);
 }
@@ -87,7 +91,7 @@ private function copyTVs($oldid,$newid,$type='full'){ //or $type=ids tv comma se
 	$tvs=$this->query($sql);
 	while($row=$this->getRow($tvs)){
 		if($row['tmplvarid']!=$this->rel_tv_id){
-			$this->saveTV($newid,$row['tmplvarid'],$row['value']);
+			$this->saveTV($newid,$row['tmplvarid'],$this->escape($row['value']));
 		}
 	}
 }
@@ -100,7 +104,7 @@ public function copyDoc($id,$newparent=false,$addzagol=false,$published=0){
 		$tmp=array();
 		foreach ($docrow as $k=>$v){
 			if($k!='id'){
-				$tmp[$k]=$v;
+				$tmp[$k]=$this->escape($v);
 			}
 		}
 		if(!empty($tmp)){
