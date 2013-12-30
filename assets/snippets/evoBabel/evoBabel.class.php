@@ -71,6 +71,26 @@ private function getTVName($tvid){
 	return $this->getValue("SELECT name FROM ".$this->modx->getFullTableName('site_tmplvars')." WHERE id=".$tvid." LIMIT 0,1");
 }
 
+//оставляем в "списках через запятую" только цифры и удаляем лишние пробелы
+private function checkNumberString($string){
+	$string=trim($string);
+	$tmp=explode(',',$string);
+	$tmp2=array();
+	if(is_array($tmp)){
+		foreach($tmp as $k=>$v){
+			$v=(int)trim($v);
+			if($v!=0){
+				$tmp2[$k]=$v;
+			}
+		}
+		if(!empty($tmp2)){
+			return implode(',',$tmp2);
+		}
+		else {return false;}
+	}
+	else {return false;}
+}
+
 //content functions
 private function saveTV($contentid,$tvid,$tvval){
 	$isset=$this->getValue("SELECT value FROM ".$this->tvs_table." WHERE contentid=".$contentid." AND tmplvarid=".$tvid." LIMIT 0,1");
@@ -85,7 +105,10 @@ private function saveTV($contentid,$tvid,$tvval){
 private function copyTVs($oldid,$newid,$type='full'){ //or $type=ids tv comma separated
 	$where='';
 	if($type!='full'){
-		$where=' AND tmplvarid IN('.$type.')';
+		$type=$this->checkNumberString($type);
+		if($type){
+			$where=' AND tmplvarid IN('.$type.')';
+		}
 	}
 	$sql="SELECT * FROM ".$this->tvs_table." WHERE contentid=".$oldid.$where;
 	$tvs=$this->query($sql);
@@ -324,15 +347,19 @@ public function showRelations(){
 }
 
 public function synchTVs($synch_TV,$synch_template,$id){
-	$q=$this->query("SELECT * FROM {$this->content_table} WHERE id={$id} AND template IN ({$synch_template}) LIMIT 0,1");
-	if($this->getRecordCount($q)==1){
-		$rels=$this->getRelations($id);
-		$relations=$this->getRelationsArray($rels);
-		$q=$this->query("SELECT tmplvarid,value FROM {$this->tvs_table} WHERE contentid={$id} AND tmplvarid IN ({$synch_TV})");
-		while($tvs=$this->getRow($q)){
-			foreach($relations as $k=>$v){
-				if($v!=$id){
-					$this->copyTVs($id,$v,$synch_TV);
+	$synch_template=$this->checkNumberString($synch_template);
+	$synch_TV=$this->checkNumberString($synch_TV);
+	if($synch_template&&$synch_TV){
+		$q=$this->query("SELECT * FROM {$this->content_table} WHERE id={$id} AND template IN ({$synch_template}) LIMIT 0,1");
+		if($this->getRecordCount($q)==1){
+			$rels=$this->getRelations($id);
+			$relations=$this->getRelationsArray($rels);
+			$q=$this->query("SELECT tmplvarid,value FROM {$this->tvs_table} WHERE contentid={$id} AND tmplvarid IN ({$synch_TV})");
+			while($tvs=$this->getRow($q)){
+				foreach($relations as $k=>$v){
+					if($v!=$id){
+						$this->copyTVs($id,$v,$synch_TV);
+					}
 				}
 			}
 		}
