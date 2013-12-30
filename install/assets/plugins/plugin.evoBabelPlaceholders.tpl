@@ -25,7 +25,7 @@ switch ($e->name ) {
         $source = $this->mergeSettingsContent($source);
         $source= $this->mergeChunkContent($source);
 	
-		$pattern="/\[%[^%\]](.*)%\]/";
+		$pattern='~\[\%(.*?)\%\]~s';
 	
 		preg_match_all($pattern,$source, $matches, PREG_PATTERN_ORDER);
 		if(is_array($matches[0])){
