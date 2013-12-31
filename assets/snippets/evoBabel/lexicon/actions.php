@@ -14,6 +14,10 @@ function clean($a){
 	if (empty($modx->config)) {
 		$modx->getSettings();
 	}
+	
+	//allowed fields in db table
+	$q=$modx->db->query("SELECT * FROM ".$modx->getFullTableName('lexicon')." LIMIT 0,1");
+	$allowed = $modx->db->getColumnNames($q);
 
 	//работа с данными - удаление, сохранение, обновление
 	if(isset($_GET['action'])){
@@ -30,7 +34,9 @@ function clean($a){
 				foreach($_POST as $k=>$v){
 					if($k!='isNewRecord'){
 						$k=$modx->db->escape(clean($k));
-						$fields[$k]=$modx->db->escape(clean($v));
+						if(in_array($k,$allowed)){
+							$fields[$k]=$modx->db->escape(clean($v));
+						}
 					}
 				}
 				if($_POST['isNewRecord']){
@@ -43,7 +49,9 @@ function clean($a){
 					if($k=='id'){$id=(int)$v;}
 					else{
 						$k=$modx->db->escape(clean($k));
-						$fields[$k]=$modx->db->escape(clean($v));
+						if(in_array($k,$allowed)){
+							$fields[$k]=$modx->db->escape(clean($v));
+						}
 					}
 				}
 				if($id&&$id!=0){
