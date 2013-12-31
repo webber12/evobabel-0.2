@@ -3,6 +3,11 @@
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
+function clean($a){
+	$arr1=array('UNION','--','/*','*/');
+	$arr2=array('','','','');
+	return str_replace($arr1,$arr2,$a);
+}
 	define('MODX_API_MODE', true);
 	include_once("../../../../index.php");
 	$modx->db->connect();
@@ -24,7 +29,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED
 			case 'save':
 				foreach($_POST as $k=>$v){
 					if($k!='isNewRecord'){
-						$fields[$k]=$modx->db->escape($v);
+						$k=$modx->db->escape(clean($k));
+						$fields[$k]=$modx->db->escape(clean($v));
 					}
 				}
 				if($_POST['isNewRecord']){
@@ -36,7 +42,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED
 				foreach($_POST as $k=>$v){
 					if($k=='id'){$id=(int)$v;}
 					else{
-						$fields[$k]=$modx->db->escape($v);
+						$k=$modx->db->escape(clean($k));
+						$fields[$k]=$modx->db->escape(clean($v));
 					}
 				}
 				if($id&&$id!=0){
