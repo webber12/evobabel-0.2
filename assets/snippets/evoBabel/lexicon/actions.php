@@ -10,6 +10,7 @@ function clean($a){
 }
 	define('MODX_API_MODE', true);
 	include_once("../../../../index.php");
+	if(!isset($_SESSION['mgrValidated']) || !$_SESSION['mgrValidated']) {die('Access denied');}
 	$modx->db->connect();
 	if (empty($modx->config)) {
 		$modx->getSettings();
