@@ -136,7 +136,8 @@ public function copyDoc($id,$newparent=false,$addzagol=false,$published=0){
 			$tmp['pagetitle']=$addzagol?$tmp['pagetitle'].' ('.$addzagol.')':$tmp['pagetitle'];
 			$new_id=$this->insert($tmp,$this->content_table);
 			if($new_id){
-				$tvs=$this->copyTVs($id,$new_id);
+				$isfolder = $this->update(array('isfolder'=>'1'), $this->content_table, 'id='.$tmp['parent']);
+				$tvs = $this->copyTVs($id,$new_id);
 				$this->clearCache();
 			}
 		}
