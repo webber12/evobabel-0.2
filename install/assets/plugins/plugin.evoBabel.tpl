@@ -9,7 +9,7 @@
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@guid 223453636a8c613426979b9dea1ff0415abf
  * @internal    @events OnPageNotFound,OnDocFormSave,OnBeforeEmptyTrash,OnEmptyTrash,OnWebPageInit,OnDocDuplicate
- * @internal    @properties &lang_template_id=id шаблона языка;text; &rel_tv_id=id TV языковых связей;text; &synch_TV=ids TV для синхронизации;text; &synch_template=ids шаблонов для синхронизации;text; &currlang=язык по умолчанию;text;ru
+ * @internal    @properties &lang_template_id=id шаблона языка;text; &rel_tv_id=id TV языковых связей;text; &synch_TV=ids TV для синхронизации;text; &synch_template=ids шаблонов для синхронизации;text; &currlang=язык по умолчанию;text;ru  &config=Файл шаблонов;text;assets/snippets/evoBabel/config/config.php
  * @internal    @installset MultiLang
  * @internal	@modx_category Manager and Admin
  */
@@ -71,7 +71,10 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             // &langOuter - шаблон обертки для списка языков
 
             //шаблоны вывода по умолчанию
-            include_once (MODX_BASE_PATH . 'assets/snippets/evoBabel/config/config.php');
+            $tmp = isset($config) ? $config : '';
+			if(!empty($config) && file_exists(MODX_BASE_PATH.$config)){
+            	include_once (MODX_BASE_PATH . $tmp);
+			}
             //активный язык отдельно
             $activeLang = isset($activeLang) ? $activeLang : '<div id="curr_lang"><img src="assets/images/langs/flag_[+alias+].jpg"> <a href="javascript:;">[+name+]</a> <img src="site/imgs/lang_pict.jpg" alt="" id="switcher"></div>'; 
             //активный язык в списке
