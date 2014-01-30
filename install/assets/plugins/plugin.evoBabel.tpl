@@ -72,9 +72,9 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
 
             //шаблоны вывода по умолчанию
             $tmp = isset($config) ? $config : '';
-			if(!empty($config) && file_exists(MODX_BASE_PATH.$config)){
-            	include_once (MODX_BASE_PATH . $tmp);
-			}
+            if(!empty($config) && file_exists(MODX_BASE_PATH . $config)){
+                include_once (MODX_BASE_PATH . $tmp);
+            }
             //активный язык отдельно
             $activeLang = isset($activeLang) ? $activeLang : '<div id="curr_lang"><img src="assets/images/langs/flag_[+alias+].jpg"> <a href="javascript:;">[+name+]</a> <img src="site/imgs/lang_pict.jpg" alt="" id="switcher"></div>'; 
             //активный язык в списке
