@@ -22,12 +22,16 @@
 
 if(!is_scalar($a)) $a = null;
 if(!is_scalar($currlang)) $currlang = null;
-$out = (!empty($a) && isset($_SESSION['perevod'][$a])) ? $_SESSION['perevod'][$a] : null;
+$out = (!empty($a) && isset($_SESSION['evoBabel_curLang'], $_SESSION['perevod'][$a]) && $_SESSION['evoBabel_curLang']==$currlang) ? $_SESSION['perevod'][$a] : null;
 if(!empty($a) && !empty($currlang) && is_null($out)){
 	$q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon')." WHERE name='".$modx->db->escape($a)."' LIMIT 1");
 	$row = $modx->db->getRow($q);
 	if(isset($row[$currlang])){
-		$_SESSION['perevod'][$a] = $out = $row[$currlang];
+		$out = $row[$currlang];
+		//evoBabel_curLang не сохраняем!
+		if(empty($_SESSION['evoBabel_curLang']) || $currlang == $_SESSION['evoBabel_curLang']){
+			$_SESSION['perevod'][$a] = $out;
+		}
 	}
 }
 return $out;
