@@ -131,6 +131,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             while ($row = $modx->db->getRow($q)) {
                 $perevod[$row['name']] = $row[$cur_lexicon];
             }
+			$_SESSION['evoBabel_curLang'] = $cur_lexicon;
             $_SESSION['perevod'] = $perevod;
             break;
         case 'OnDocDuplicate' :

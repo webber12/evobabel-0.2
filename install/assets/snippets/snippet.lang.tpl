@@ -19,15 +19,21 @@
 // использование в сниппетах 
 // [[DocLister? &parents=`[[lang? &a=`Папка каталог`]]` ...другие параметры ..]]
 // доступны плейсхолдеры вида [%Папка каталог%] - в шаблонах и чанках  если установлен плагин evoBabelPlaceholder
+// [[lang? &a=`Главная страница` &id=`eng`]] Получение главной страницы для eng лексикона
 
 if(!is_scalar($a)) $a = null;
 if(!is_scalar($currlang)) $currlang = null;
-$out = (!empty($a) && isset($_SESSION['perevod'][$a])) ? $_SESSION['perevod'][$a] : null;
-if(!empty($a) && !empty($currlang) && is_null($out)){
+$defLang = $currlang;
+if(!empty($_SESSION['evoBabel_curLang'])){
+	$currlang = $_SESSION['evoBabel_curLang'];
+}
+$id = isset($id) ? $id : $currlang;
+$out = (!empty($a) && isset($_SESSION['perevod'][$a]) && $currlang == $id) ? $_SESSION['perevod'][$a] : null;	
+if(!empty($a) && !empty($id) && is_null($out)){
 	$q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon')." WHERE name='".$modx->db->escape($a)."' LIMIT 1");
 	$row = $modx->db->getRow($q);
-	if(isset($row[$currlang])){
-		$_SESSION['perevod'][$a] = $out = $row[$currlang];
+	if(isset($row[$id])){
+		$out = $row[$id];
 	}
 }
 return $out;
