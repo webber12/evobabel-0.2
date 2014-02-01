@@ -290,40 +290,37 @@ public function showRelations(){
     $relation = $this->getRelations($this->id);
 
     //если связи есть, выводим их
-    if ($relation) {
+    if($relation){
         $rels = $this->getRelationsArray($relation);
-        foreach ($this->langs as $k=>$v) {
+        foreach ($this->langs as $k=>$v){
             if ($k != $this->topid) {
-                if (isset($rels[$v['alias']]) && $this->checkPage($rels[$v['alias']])) {	
-                    $rel_rows .= '
-                        <div style="height:38px;">
-                            ' . $v['alias'] . ' - 
-                            <a href="index.php?a=27&id=' . $rels[$v['alias']] . '" class="primary">
-                                <img alt="icons_save" src="' . $this->iconfolder . 'save.png"/> перейти
+                if (isset($rels[$v['alias']]) && $this->checkPage($rels[$v['alias']])) {
+                    $rel_rows.='
+                        <div class="eB_row">
+                            <a href="index.php?a=27&id='.$rels[$v['alias']].'" class="primary">
+                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['name'].' -  перейти
                             </a>
                         </div>';
                 } else {
                 $rel_rows .= '
-                    <div style="height:38px;">
-                        ' . $v['alias'] . ' - 
-                        <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
-                            <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> создать
+                    <div class="eB_row"> 
+                        <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
+                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['name'].' - создать
                         </a>
                     </div>';
                 }
             }
         }
-        $rel_rows .= '<input type="hidden" name="tv'.$this->rel_tv_id.'" value="' . $relation . '">';
+        $rel_rows .= '<input type="hidden" name="tv'.$this->rel_tv_id.'" value="'.$relation.'">';
     } else {//если связей нет, то выводим ссылки на создание без проверок
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
-                $rel_rows .= '<div style="height:35px;">
-                    ' . $v['alias'] . ' - 
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
-                        <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> создать
+                $rel_rows .= '<div class="eB_row">
+                    <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['name']].'">
+                        <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['name'].' - создать
                     </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                    $rel_rows .= ' &nbsp; <b><font color=red>Внимание!</font></b> Рекомендуется создать сначала языковую версию <a href="index.php?a=27&id=' . $parent_id . '"><img src="' . $this->iconfolder . 'delete.png" alt="icons_delete_document"/> родителя</a>';
+                    $rel_rows .= '<b><font color=red>Внимание!</font></b> Рекомендуется создать сначала языковую версию <a href="index.php?a=27&id='.$parent_id.'"><img src="'.$this->iconfolder.'delete.png" alt="icons_delete_document"/> родителя</a>';
                 }
                 $rel_rows .= '</div>';
             }
@@ -331,12 +328,11 @@ public function showRelations(){
     }
 
     //общая "картина" для связей на выход
-    $out .= '
-        <b>Текущая версия:</b> ' . $this->langs[$this->topid]['alias'] . '
-        <br><br>
-        <b>Другие языки:</b>
-        <br><br>
-        <div class="actionButtons">' . $rel_rows . '</div><br>
+    $out.='<h3>Языковые версии</h3>
+        <div class="eB_row eB_current">
+            <img src="'.$this->iconfolder.'page_white_magnify.png" alt="icons_resource_duplicate"/> '.$this->langs[$this->topid]['name'].' - Текущая версия
+        </div> 
+        <div class="actionButtons">'.$rel_rows.'</div>
     ';
     return $out;
 }

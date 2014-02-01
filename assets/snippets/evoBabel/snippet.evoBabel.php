@@ -25,4 +25,6 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
         $out .= 'Не задан id TV для хранения языковых связей либо id шаблона языка в настройках сниппета';
     }
 }
-echo $out;
+echo '<div id="eB_relations">' . $out . '</div>';
+echo '<script type="text/javascript" src="../assets/snippets/evoBabel/script.js"></script>';
+
