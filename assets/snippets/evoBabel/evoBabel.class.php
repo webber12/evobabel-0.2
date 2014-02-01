@@ -386,10 +386,14 @@ public function updateDeletedRelations($del_array){//обновляем связ
             }
             $oldrel = substr($oldrel, 0, -2);
             $newrel = substr($newrel, 0, -2);
+            $tmp = explode(":", $newrel);
             if ($oldrel != '') {
                 if ($newrel != $minrow) {
                     $this->update(array('value'=>$newrel), $this->tvs_table, "`value`='".$oldrel."' AND tmplvarid=".$this->rel_tv_id);
                 }
+            }
+            if (count($tmp) == 2) {//удаляем связь, если остался только один ресурс (сам к себе привязан)
+                $this->query("DELETE FROM {$this->tvs_table} WHERE contentid={$tmp[1]} AND tmplvarid={$this->rel_tv_id}");
             }
         }
     }
