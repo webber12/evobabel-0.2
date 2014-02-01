@@ -1,6 +1,5 @@
 ﻿window.addEvent("domready", function() {
-    var eB=document.getElementById("eB_relations");
-    $$('#eB_relations').set({
+    $('eB_relations').set({
         styles:{
             'position' : 'absolute',
             'top' : '1px',
@@ -36,6 +35,11 @@
             'border-bottom':'solid 1px #dddddd'
         }
     });
+    $$('.eB_row').set({
+        styles:{
+            'height':'auto'
+        }
+    });
     $$('#eB_relations h3').set({
         styles:{
             'height':'35px',
@@ -46,7 +50,6 @@
             'font-weight':'bold'
         }
     });
-    $j("#eB_relations").parent().parent().hide();
-    $j("#tabGeneral").prepend($j("#eB_relations"));
+    $("eB_relations").getParent().getParent().setStyle('display', 'none');
+    $("tabGeneral").insertBefore($("eB_relations"), $("tabGeneral").firstChild);
 })
-
