@@ -316,7 +316,7 @@ public function showRelations(){
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
                 $rel_rows .= '<div class="eB_row" style="height:34px;">
-                    <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['name']].'">
+                    <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
                         <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['name'].' - создать
                     </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
