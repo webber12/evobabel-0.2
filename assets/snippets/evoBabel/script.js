@@ -1,6 +1,6 @@
 ﻿window.addEvent("domready", function() {
     var eB=document.getElementById("eB_relations");
-    eB.set({
+    $$('#eB_relations').set({
         styles:{
             'position' : 'absolute',
             'top' : '1px',
@@ -46,6 +46,7 @@
 			'font-weight':'bold'
         }
 	});
+	$j("#eB_relations").parent().parent().hide();
     $j("#tabGeneral").prepend($j("#eB_relations"));
 })
 
