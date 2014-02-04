@@ -27,5 +27,5 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
 }
 echo '<div id="eB_relations">' . $out . '</div>';
 if (isset($params['show_panel']) && $params['show_panel'] == '1') {
-    echo '<script type="text/javascript" src="../assets/snippets/evoBabel/script.js"></script>';
+    echo '<script type="text/javascript" src="'.MODX_BASE_URL.'assets/snippets/evoBabel/script.js"></script>';
 }
