@@ -161,6 +161,7 @@ public function checkActivePage($id){//проверка существовани
 public function getSiteLangs($lang_template_id){
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
+        $langs[$row['id']]['lang'] = $row['pagetitle'];
         $langs[$row['id']]['name'] = $row['longtitle'];
         $langs[$row['id']]['home'] = $row['description'];
         $langs[$row['id']]['alias'] = $row['alias'];
@@ -171,6 +172,7 @@ public function getSiteLangs($lang_template_id){
 public function getAllSiteLangs($lang_template_id){
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " ORDER BY menuindex ASC");
     while($row = $this->getRow($q)){
+		$langs[$row['id']]['lang'] = $row['pagetitle'];
         $langs[$row['id']]['name'] = $row['longtitle'];
         $langs[$row['id']]['home'] = $row['description'];
         $langs[$row['id']]['alias'] = $row['alias'];
@@ -298,14 +300,14 @@ public function showRelations(){
                     $rel_rows.='
                         <div class="eB_row" style="height:34px;">
                             <a href="index.php?a=27&id='.$rels[$v['alias']].'" class="primary">
-                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['name'].' -  перейти
+                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['lang'].' -  перейти
                             </a>
                         </div>';
                 } else {
                 $rel_rows .= '
                     <div class="eB_row" style="height:34px;"> 
                         <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
-                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['name'].' - создать
+                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - создать
                         </a>
                     </div>';
                 }
@@ -317,7 +319,7 @@ public function showRelations(){
             if ($k != $this->topid) {
                 $rel_rows .= '<div class="eB_row" style="height:34px;">
                     <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
-                        <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['name'].' - создать
+                        <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - создать
                     </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
                     $rel_rows .= '<b><font color=red>Внимание!</font></b> Рекомендуется создать сначала языковую версию <a href="index.php?a=27&id='.$parent_id.'"><img src="'.$this->iconfolder.'delete.png" alt="icons_delete_document"/> родителя</a>';
@@ -330,7 +332,7 @@ public function showRelations(){
     //общая "картина" для связей на выход
     $out.='<h3>Языковые версии</h3>
         <div class="eB_row eB_current" style="height:34px;">
-            <img src="'.$this->iconfolder.'page_white_magnify.png" alt="icons_resource_duplicate"/> '.$this->langs[$this->topid]['name'].' - Текущая версия
+            <img src="'.$this->iconfolder.'page_white_magnify.png" alt="icons_resource_duplicate"/> '.$this->langs[$this->topid]['lang'].' - Текущая версия
         </div> 
         <div class="actionButtons">'.$rel_rows.'</div>
     ';
