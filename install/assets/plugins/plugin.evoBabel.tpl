@@ -121,7 +121,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $langsList .= str_replace(array('[+wrapper+]'), array($langRows), $langOuter);
 
             // устанавливаем плейсхолдеры [+activeLang+] и [+switchLang+] для вывода активного языка и списка языков соответственно
-            $modx->setPlaceholder("activeLang", $currLang.$eB->params['rel_tv_id']);
+            $modx->setPlaceholder("activeLang", $currLang);
             $modx->setPlaceholder("switchLang", $langsList);
 
             //получаем массив перевода для чанков в сессию
