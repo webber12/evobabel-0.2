@@ -250,7 +250,7 @@ public function makeVersion(){
     $this->version_lang_id = (int)$_GET['ebabel'];
     $this->version_parent_id = (int)$_GET['parent'];
     //копируем ресурс вместе со всеми ТВ
-    $new_id = $this->copyDoc($this->id, $this->version_parent_id, $this->langs[$this->version_lang_id]['name']);
+    $new_id = $this->copyDoc($this->id, $this->version_parent_id, $this->langs[$this->version_lang_id]['name'], (int)$this->params['publish']);
     if ($new_id) {//если ресурс скопирован, создаем новые связи
         //проверяем старые связи
         $curr_rel = $this->getRelations($this->id);
