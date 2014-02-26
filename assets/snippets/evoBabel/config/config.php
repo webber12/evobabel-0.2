@@ -6,13 +6,13 @@ if (!defined('MODX_BASE_PATH')) {
 }
 
 //активный язык отдельно от списка
-$activeLang = '<div id="curr_lang"><img src="assets/images/langs/flag_[+alias+].jpg"> <a href="javascript:;">[+name+]</a> <img src="site/imgs/lang_pict.jpg" alt="" id="switcher"></div>'; 
+$activeLang = '<div id="curr_lang"><img src="assets/snippets/evoBabel/config/images/flag_[+alias+].png"> <a href="javascript:;">[+name+]</a></div>'; 
 
 //активный язык в списке
-$activeRow = '<div class="active"><img src="assets/images/langs/flag_[+alias+].jpg"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
+$activeRow = '<div class="active"><img src="assets/snippets/evoBabel/config/images/flag_[+alias+].png"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
 
 //неактивный язык списка
-$unactiveRow = '<div><img src="assets/images/langs/flag_[+alias+].jpg"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
+$unactiveRow = '<div><img src="assets/snippets/evoBabel/config/images/flag_[+alias+].png"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
 
 //обертка списка языков
 $langOuter = '<div class="other_langs">[+wrapper+]</div>';

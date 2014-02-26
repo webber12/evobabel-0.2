@@ -75,11 +75,11 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                 include_once (MODX_BASE_PATH . $tmp);
             }
             //активный язык отдельно
-            $activeLang = isset($activeLang) ? $activeLang : '<div id="curr_lang"><img src="assets/images/langs/flag_[+alias+].jpg"> <a href="javascript:;">[+name+]</a> <img src="site/imgs/lang_pict.jpg" alt="" id="switcher"></div>'; 
+            $activeLang = isset($activeLang) ? $activeLang : '<div id="curr_lang"><img src="assets/snippets/evoBabel/config/images/flag_[+alias+].png"> <a href="javascript:;">[+name+]</a></div>'; 
             //активный язык в списке
-            $activeRow = isset($activeRow) ? $activeRow : '<div class="active"><img src="assets/images/langs/flag_[+alias+].jpg"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
+            $activeRow = isset($activeRow) ? $activeRow : '<div class="active"><img src="assets/snippets/evoBabel/config/images/flag_[+alias+].png"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
             //неактивный язык списка
-            $unactiveRow = isset($unactiveRow) ? $unactiveRow : '<div><img src="assets/images/langs/flag_[+alias+].jpg"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
+            $unactiveRow = isset($unactiveRow) ? $unactiveRow : '<div><img src="assets/snippets/evoBabel/config/images/langs/flag_[+alias+].png"> &nbsp;<a href="[+url+]">[+name+]</a></div>';
             //обертка списка языков
             $langOuter = isset($langOuter) ? $langOuter : '<div class="other_langs">[+wrapper+]</div>';
 
