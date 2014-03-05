@@ -105,14 +105,14 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                 } else {//нет связи либо страница не активна -> проверяем родителя
                     $parent_id = $modx->db->getValue($modx->db->query("SELECT parent FROM {$eB->content_table} WHERE id={$eB->id} AND published=1 AND deleted=0 AND parent!=0 AND template!=$eB->lang_template_id"));
                     if (!$parent_id) {//если нет родителя, отправляем на главную страницу языка
-                        $url = ($v['home'] != '' ? $v['home'] : $k);
+                        $url = ((int)$v['home'] != 0 ? (int)$v['home'] : $k);
                     } else {//если родитель есть, проверяем его связи
                         $parent_relations = $eB->getRelations($parent_id);
                         $relParentArray = $eB->getRelationsArray($parent_relations);
                         if (isset($relParentArray[$v['alias']]) && $eB->checkActivePage($relParentArray[$v['alias']])) {//у родителя активная связь
                             $url = $relParentArray[$v['alias']];
                         } else {//иначе -> на главную страницу языка
-                            $url = ($v['home'] != '' ? $v['home'] : $k);
+                            $url = ((int)$v['home'] != 0 ? (int)$v['home'] : $k);
                         }
                     }
                 }
