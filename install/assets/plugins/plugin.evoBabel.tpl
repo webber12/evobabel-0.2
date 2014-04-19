@@ -93,7 +93,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $relArray = $eB->getRelationsArray($relations);
 
             //устанавливаем текущий язык
-            $currLang = str_replace(array('[+alias+]', '[+name+]'), array($siteLangs[$curr_lang_id]['alias'], $siteLangs[$curr_lang_id]['name']), $activeLang);
+            $currLang = str_replace(array('[+alias+]', '[+name+]', '[+lang+]', '[+home+]', '[+lang+]'), array($siteLangs[$curr_lang_id]['alias'], $siteLangs[$curr_lang_id]['name'], $v['lang']), $activeLang);
 
             //устанавливаем список языков с учетом активного
             $langRows = '';
@@ -116,7 +116,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                         }
                     }
                 }
-                $langRows .= str_replace(array('[+alias+]', '[+url+]', '[+name+]'), array($v['alias'], $modx->makeUrl($url), $v['name']), $tpl);
+                $langRows .= str_replace(array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'), array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
             }
             $langsList .= str_replace(array('[+wrapper+]'), array($langRows), $langOuter);
 
