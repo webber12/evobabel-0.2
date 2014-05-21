@@ -94,7 +94,7 @@ private function checkNumberString($string){
 }
 
 //content functions
-private function saveTV($contentid, $tvid,$tvval){
+private function saveTV($contentid, $tvid, $tvval) {
     $isset = $this->getRecordCount("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $contentid . " AND tmplvarid=" . $tvid . " LIMIT 0, 1");
     if ($isset) {
         $this->update(array('value'=>$tvval), $this->tvs_table, "contentid=" . $contentid . " AND tmplvarid=" . $tvid);
@@ -351,7 +351,8 @@ public function synchTVs($synch_TV, $synch_template, $id){
             while ($tvs = $this->getRow($q)) {
                 foreach ($relations as $k=>$v) {
                     if($v != $id){
-                        $this->copyTVs($id, $v, $synch_TV);
+                        //$this->copyTVs($id, $v, $synch_TV);
+                        $this->saveTV($v, $tvs['tmplvarid'], $tvs['value']);
                     }
                 }
             }
