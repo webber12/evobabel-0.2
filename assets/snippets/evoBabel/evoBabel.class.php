@@ -95,7 +95,7 @@ private function checkNumberString($string){
 
 //content functions
 private function saveTV($contentid, $tvid,$tvval){
-    $isset = $this->getValue("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $contentid . " AND tmplvarid=" . $tvid . " LIMIT 0, 1");
+    $isset = $this->getRecordCount("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $contentid . " AND tmplvarid=" . $tvid . " LIMIT 0, 1");
     if ($isset) {
         $this->update(array('value'=>$tvval), $this->tvs_table, "contentid=" . $contentid . " AND tmplvarid=" . $tvid);
     } else {
