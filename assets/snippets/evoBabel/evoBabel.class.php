@@ -347,7 +347,7 @@ public function synchTVs($synch_TV, $synch_template, $id){
         if ($this->getRecordCount($q) == 1) {
             $rels = $this->getRelations($id);
             $relations = $this->getRelationsArray($rels);
-            $q = $this->query("SELECT tmplvarid,value FROM {$this->tvs_table} WHERE contentid={$id} AND tmplvarid IN ({$synch_TV})");
+            $q = $this->query("SELECT tmplvarid,value FROM {$this->tvs_table} WHERE contentid={$id} AND tmplvarid IN ({$synch_TV}) AND tmplvarid != {$this->rel_tv_id}");
             while ($tvs = $this->getRow($q)) {
                 foreach ($relations as $k=>$v) {
                     if($v != $id){
