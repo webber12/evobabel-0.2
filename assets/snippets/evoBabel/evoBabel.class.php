@@ -348,11 +348,23 @@ public function synchTVs($synch_TV, $synch_template, $id){
             $rels = $this->getRelations($id);
             $relations = $this->getRelationsArray($rels);
             $q = $this->query("SELECT tmplvarid,value FROM {$this->tvs_table} WHERE contentid={$id} AND tmplvarid IN ({$synch_TV}) AND tmplvarid != {$this->rel_tv_id}");
+            //собираем сюда все, что действительно обновилось (остались записи в базе)
+            $synch = array();
             while ($tvs = $this->getRow($q)) {
                 foreach ($relations as $k=>$v) {
                     if($v != $id){
                         //$this->copyTVs($id, $v, $synch_TV);
                         $this->saveTV($v, $tvs['tmplvarid'], $tvs['value']);
+                    }
+                }
+                $synch[] = $tvs['tmplvarid'];
+            }
+            //а теперь удаляем то, что удалилось из базы и в других "родственниках"-языках
+            if (!empty($synch)) {
+                foreach ($relations as $k=>$v) {
+                    if ($v != $id) {
+                        $sql = "DELETE FROM {$this->tvs_table} WHERE contentid={$v} AND tmplvarid IN ({$synch_TV}) AND tmplvarid != {$this->rel_tv_id} AND tmplvarid NOT IN (" . implode(',', $synch) . ")";
+                        $del = $this->query($sql);
                     }
                 }
             }
