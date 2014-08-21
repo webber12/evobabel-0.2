@@ -90,7 +90,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $siteLangs = $eB->getSiteLangs($eB->lang_template_id);
             //если находимся в корневой папке языка, отправляем на главную страницу этого языка (при условии, что она задана и отличается от текущей)
             if (isset($siteLangs[$eB->id]) && $siteLangs[$eB->id]['home'] != '' && (int)$siteLangs[$eB->id]['home'] != 0 && $siteLangs[$eB->id]['home'] != $eB->id) {
-                $modx->sendRedirect((int)$siteLangs[$eB->id]['home']);
+                $modx->sendRedirect($modx->makeUrl((int)$siteLangs[$eB->id]['home']));
             }
             $curr_lang_id = $eB->getCurLangId($eB->id);
             $relations = $eB->getRelations($eB->id);
