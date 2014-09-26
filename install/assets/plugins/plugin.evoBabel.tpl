@@ -29,6 +29,10 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
     switch ($e->name) {
         case 'OnPageNotFound'://переадресация на нужную страницу 404, указать ее в модуле лексикона
             $docid = 0;
+            if (!isset($_SESSION['perevod'])) {
+                $docid = $modx->config['site_start'];
+                $modx->sendRedirect($modx->makeUrl($docid));exit();
+            }
             $id = $_SESSION['perevod']['Страница не найдена'];
             $docid = (int)$id;
             if ($docid == 0) {
