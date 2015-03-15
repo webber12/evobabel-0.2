@@ -31,7 +31,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $docid = 0;
             if (!isset($_SESSION['perevod'])) {
                 $docid = $modx->config['site_start'];
-                $modx->sendRedirect($modx->makeUrl($docid));exit();
+                $modx->sendRedirect($modx->makeUrl($docid), 0, 'REDIRECT_HEADER', 'HTTP/1.0 404 Not Found');exit();
             }
             $id = $_SESSION['perevod']['Страница не найдена'];
             $docid = (int)$id;
@@ -44,7 +44,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                 }
             }
             if ($docid != 0) {
-                $modx->sendRedirect($modx->makeUrl($docid));
+                $modx->sendRedirect($modx->makeUrl($docid), 0, 'REDIRECT_HEADER', 'HTTP/1.0 404 Not Found');exit();
             }
             break ;
         case 'OnDocFormSave'://синхронизация выбранных TV на выбранном шаблоне
