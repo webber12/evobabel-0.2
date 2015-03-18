@@ -30,25 +30,24 @@ $use_default = isset($use_default) && $use_default == '1' ? true : false;
 
 $langs = array();
 if ($tv && !empty($tv)) {
-        $tmp = explode("||", $tv);
-        foreach($tmp as $k => $v) {
-                $tmp2 = explode(":", $v);
-                $langs[$tmp2[0]] = $tmp2[1];
-        }
+    $tmp = explode("||", $tv);
+    foreach($tmp as $k => $v) {
+        $tmp2 = explode(":", $v);
+        $langs[$tmp2[0]] = $tmp2[1];
+    }
 }
 $default_link = '';
 $alter_link = '';
 if (!empty($langs)) {
-        foreach ($langs as $lang => $docid) {
-			if ($use_default && $default_lang == $lang) {
-				$default_link .= '<link rel="alternate" hreflang="x-default" href="' . $modx->makeUrl($docid) . '" />';
-			} else {
-				$href_lang = $modx->runSnippet("lang", array("a" => "hreflang", "id" => $lang));
-				$href_lang = !empty($href_lang) ? $href_lang : $lang;
-				$alter_link .= '<link rel="alternate" href="' . MODX_SITE_URL . $modx->makeUrl($docid) . '" hreflang="' . $href_lang . '" />';
-			}
-
+    foreach ($langs as $lang => $docid) {
+        if ($use_default && $default_lang == $lang) {
+            $default_link .= '<link rel="alternate" hreflang="x-default" href="' . $modx->makeUrl($docid) . '" />';
+        } else {
+            $href_lang = $modx->runSnippet("lang", array("a" => "hreflang", "id" => $lang));
+            $href_lang = !empty($href_lang) ? $href_lang : $lang;
+            $alter_link .= '<link rel="alternate" href="' . MODX_SITE_URL . $modx->makeUrl($docid) . '" hreflang="' . $href_lang . '" />';
         }
+    }
 }
 $out .= $default_link . $alter_link;
 return $out;
