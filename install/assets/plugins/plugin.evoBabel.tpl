@@ -28,9 +28,10 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
 
     switch ($e->name) {
         case 'OnPageNotFound'://переадресация на нужную страницу 404, указать ее в модуле лексикона
-            $docid = 0;
+            //$docid = 0;
+            $docid = !empty($modx->config['error_page']) ?  $modx->config['error_page'] : $modx->config['site_start'];
             if (!isset($_SESSION['perevod'])) {
-                $docid = $modx->config['site_start'];
+                //$docid = $modx->config['site_start'];
                 $modx->sendRedirect($modx->makeUrl($docid), 0, 'REDIRECT_HEADER', 'HTTP/1.0 404 Not Found');exit();
             }
             $id = $_SESSION['perevod']['Страница не найдена'];
@@ -45,6 +46,8 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             }
             if ($docid != 0) {
                 $modx->sendRedirect($modx->makeUrl($docid), 0, 'REDIRECT_HEADER', 'HTTP/1.0 404 Not Found');exit();
+            }  else {
+                $docid = !empty($modx->config['error_page']) ?  $modx->config['error_page'] : $modx->config['site_start'];
             }
             break ;
         case 'OnDocFormSave'://синхронизация выбранных TV на выбранном шаблоне
@@ -139,7 +142,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             while ($row = $modx->db->getRow($q)) {
                 $perevod[$row['name']] = $row[$cur_lexicon];
             }
-			$_SESSION['evoBabel_curLang'] = $cur_lexicon;
+            $_SESSION['evoBabel_curLang'] = $cur_lexicon;
             $_SESSION['perevod'] = $perevod;
             break;
         case 'OnDocDuplicate' :
