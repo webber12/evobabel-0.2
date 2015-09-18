@@ -22,10 +22,10 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
         // получаем отформатированный список связей для вывода
         $out .= $eB->showRelations();
     } else {
-        $out .= 'Не задан id TV для хранения языковых связей либо id шаблона языка в настройках сниппета';
+        $out .= $_eb_lang['relation_tv_not_defined'];
     }
 }
 echo '<div id="eB_relations">' . $out . '</div>';
 if (isset($params['show_panel']) && $params['show_panel'] == '1') {
-    echo '<script type="text/javascript" src="'.MODX_BASE_URL.'assets/snippets/evoBabel/script.js"></script>';
+    echo '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js"></script>';
 }

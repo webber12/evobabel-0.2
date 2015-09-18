@@ -18,11 +18,14 @@ public $params=array();
 public $topid;
 public $iconfolder;
 public $theme;
+public $language = '';
 
 public function __construct($modx, $id, $params){
     $this->modx = $modx;
     $this->id = $id;
     $this->params = $params;
+    $this->params['translate_lang'] = isset($params['translate_lang']) ? $params['translate_lang'] : 'ru';
+    $this->loadLangFile($this->params['translate_lang']);
     $this->content_table = $this->modx->getFullTableName('site_content');
     $this->tvs_table = $modx->getFullTableName('site_tmplvar_contentvalues');
     $this->rel_tv_id = $params['rel_tv_id'];
@@ -69,6 +72,16 @@ private function clearCache($type='full',$report=false){
 }
 private function getTVName($tvid){
     return $this->getValue("SELECT name FROM " . $this->modx->getFullTableName('site_tmplvars') . " WHERE id=" . $tvid . " LIMIT 0, 1");
+}
+
+private function loadLangFile($file) {
+    //подключаем файл перевода
+    if (is_file(dirname(__FILE__) . '/lang/' . $file . '.php')) {
+        include(dirname(__FILE__).'/lang/' . $file . '.php');
+    } else {
+        include(dirname(__FILE__).'/lang/ru.php');
+    }
+	$this->eb_lang = $_eb_lang;
 }
 
 //оставляем в "списках через запятую" только цифры и удаляем лишние пробелы
@@ -300,14 +313,14 @@ public function showRelations(){
                     $rel_rows.='
                         <div class="eB_row" style="height:34px;">
                             <a href="index.php?a=27&id='.$rels[$v['alias']].'" class="primary">
-                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['lang'].' -  перейти
+                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['lang'].' -  ' . $this->eb_lang['jump_version'] . '
                             </a>
                         </div>';
                 } else {
                 $rel_rows .= '
                     <div class="eB_row" style="height:34px;"> 
                         <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
-                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - создать
+                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - ' . $this->eb_lang['create_version'] . '
                         </a>
                     </div>';
                 }
@@ -318,11 +331,11 @@ public function showRelations(){
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
                 $rel_rows .= '<div class="eB_row" style="height:34px;">
-                    <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
-                        <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - создать
+                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
+                        <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
                     </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                    $rel_rows .= '<b><font color=red>Внимание!</font></b> Рекомендуется создать сначала языковую версию <a href="index.php?a=27&id='.$parent_id.'"><img src="'.$this->iconfolder.'delete.png" alt="icons_delete_document"/> родителя</a>';
+                    $rel_rows .= '<b><font color=red>' . $this->eb_lang['attention'] . '</font></b> ' . $this->eb_lang['parent_version_recommend'] . ' <a href="index.php?a=27&id='.$parent_id.'"><img src="'.$this->iconfolder.'delete.png" alt="icons_delete_document"/> ' . $this->eb_lang['of_parent'] . '</a>';
                 }
                 $rel_rows .= '</div>';
             }
@@ -330,9 +343,9 @@ public function showRelations(){
     }
 
     //общая "картина" для связей на выход
-    $out.='<h3>Языковые версии</h3>
+    $out.='<h3>' . $this->eb_lang['lang_versions'] . '</h3>
         <div class="eB_row eB_current" style="height:34px;">
-            <img src="'.$this->iconfolder.'page_white_magnify.png" alt="icons_resource_duplicate"/> '.$this->langs[$this->topid]['lang'].' - Текущая версия
+            <img src="' . $this->iconfolder . 'page_white_magnify.png" alt="icons_resource_duplicate"/> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
         </div> 
         <div class="actionButtons">'.$rel_rows.'</div>
     ';
