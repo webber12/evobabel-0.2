@@ -23,3 +23,4 @@ $_eb_lang['save'] = 'Сохранить';
 $_eb_lang['cancel'] = 'Отменить';
 $_eb_lang['available_languages'] = 'Доступные языки';
 $_eb_lang['delete_languages'] = 'Удалить языки';
+$_eb_lang['switched_languages'] = 'Показывать язык в [+switchLang+]';
