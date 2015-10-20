@@ -9,12 +9,14 @@ public $modx;
 public $id; //id текущего ресурса
 public $content_table;
 public $tvs_table;
+public $docgroups_table;
 public $rel_tv_id;
 public $lang_template_id;
 public $version_lang_id;
 public $version_parent_id;
 public $langs=array();
 public $params=array();
+public $trans_langs = array();//отображаемые языки
 public $topid;
 public $iconfolder;
 public $theme;
@@ -27,13 +29,18 @@ public function __construct($modx, $id, $params){
     $this->params['translate_lang'] = isset($params['translate_lang']) ? $params['translate_lang'] : 'ru';
     $this->loadLangFile($this->params['translate_lang']);
     $this->content_table = $this->modx->getFullTableName('site_content');
-    $this->tvs_table = $modx->getFullTableName('site_tmplvar_contentvalues');
+    $this->tvs_table = $this->modx->getFullTableName('site_tmplvar_contentvalues');
+	$this->docgroups_table = $this->modx->getFullTableName('document_groups');
     $this->rel_tv_id = $params['rel_tv_id'];
     $this->lang_template_id = $params['lang_template_id'];
     $this->langs = $this->getAllSiteLangs($this->lang_template_id);
     $this->topid = $this->getCurLangId($this->id);
     $this->theme = $this->modx->config['manager_theme'];
     $this->iconfolder = "media/style/" . $this->theme . "/images/icons/";
+	$t = explode(",",$params['show_langs']);
+	$t[] = $params['currlang'];//добавляем язык по умолчанию
+	array_unique($t);
+	$this->trans_langs = $t;
 }
 
 //db functions
@@ -152,6 +159,16 @@ public function copyDoc($id, $newparent=false, $addzagol=false, $published=0){
             if ($new_id) {
                 $isfolder = $this->update(array('isfolder'=>'1'), $this->content_table, 'isfolder=0 AND id=' . $tmp['parent']);
                 $tvs = $this->copyTVs($id, $new_id);
+				//копируем также и права доступа к ресурсу
+				$rez = $this->modx->db->select("document_group",$this->docgroups_table,"document=$id");
+				$values=array();
+				while($r=$this->getRow($rez)){
+					$values[] = "(".$r['document_group'].",$new_id)";
+				}
+				if (count($values)){
+					$sql = "insert into ".$this->docgroups_table." (document_group,document) values ".implode(",",$values);
+					$this->modx->db->query($sql);
+				}
                 $this->clearCache();
             }
         }
@@ -174,10 +191,13 @@ public function checkActivePage($id){//проверка существовани
 public function getSiteLangs($lang_template_id){
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
-        $langs[$row['id']]['lang'] = $row['pagetitle'];
-        $langs[$row['id']]['name'] = $row['longtitle'];
-        $langs[$row['id']]['home'] = $row['description'];
-        $langs[$row['id']]['alias'] = $row['alias'];
+		//проверяем, можно ли показывать переход на языковую версию
+		if (array_search($row['alias'],$this->trans_langs) !== false){
+			$langs[$row['id']]['lang'] = $row['pagetitle'];
+			$langs[$row['id']]['name'] = $row['longtitle'];
+			$langs[$row['id']]['home'] = $row['description'];
+			$langs[$row['id']]['alias'] = $row['alias'];
+		}
     }
     return $langs;
 }

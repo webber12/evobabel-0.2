@@ -9,7 +9,7 @@
  * @version 	0.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@guid evobabels
- * @internal    @properties &lang_template_id=id шаблона языка;text; &rel_tv_id=id TV языковых связей;text; &currlang=язык по умолчанию;text;ru  &show_panel=Показывать панель;text;1  &publish=Публиковать (0 -нет, 1 - да);text;0  &translate_lang=язык переводов;text;ru
+ * @internal    @properties &lang_template_id=id шаблона языка;text;4 &rel_tv_id=id TV языковых связей;text;5 &currlang=язык по умолчанию;text;ru &show_panel=Показывать панель;text;1  &publish=Публиковать (0 -нет, 1 - да);text;0  &translate_lang=язык переводов;text;ru &show_langs=показывать перевод для языков;text;ru
  * @internal	@modx_category MultiLang
  * @internal    @installset base, sample
  */
@@ -45,10 +45,54 @@ if(isset($_POST['del_lang']) && is_array($_POST['del_lang'])){
 		$q = $modx->db->query("ALTER TABLE " . $modx->getFullTableName('lexicon') . " DROP `" . $k . "`");
 	}
 }
+//сохраняем выбраные языки в свойства модуля. Это сделано для того, чтобы менеджер с ограниченными правами (разрешен только запуск модулей) мог сам управлять, какую языковую версию разрешить к показу на сайте
+if(isset($_POST['trans_lang']) && is_array($_POST['trans_lang'])){
+	$trans_langs = array();
+	foreach ($_POST['trans_lang'] as $k=>$v){
+		$trans_langs[] = $modx->db->escape($v);
+	}
+	$trans_langs = implode(",",$trans_langs);
+	$module_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+	if ($module_id) {
+		$rez = $modx->db->select("properties",$modx->getFullTableName("site_modules"),"id=$module_id");
+		if ($modx->db->getRecordCount($rez)){
+			$props = $modx->db->getValue($rez);
+			$props = explode('&',$props);			
+			if (count($props)) {
+				foreach ($props as $kp=>$prop){
+					if (empty($prop)){
+						unset($props[$kp]); continue;
+					}
+					list($key,$value) = explode("=",$prop);
+					$key = trim($key);
+					if ($key=='show_langs'){
+						$v = explode(";",$value);
+						$update = true;
+						if (isset($v[2]) && $v[2]==$trans_langs) $update = false;
+						if ($update){
+							$v[2] = $trans_langs;
+							$value=implode(";",$v);
+							$prop = $key.'='.$value;
+							$props[$kp]=$prop;
+							$fields = array(
+								'properties'=>'&'.implode("&",$props)
+							);
+							$res = $modx->db->update($fields,$modx->getFullTableName("site_modules"),"id=$module_id");
+							$show_langs = $trans_langs;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 //получаем названия колонок
 $columns = '';
 $lang = '';
+$trans_langs = '';
+$show_langs = explode(",",$show_langs);
+$c_show_langs = count($show_langs);
 $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon') . " LIMIT 0,1");
 $cols = $modx->db->getColumnNames($q);
 for( $i = 0; $i < count( $cols ); $i++ ) { 
@@ -59,6 +103,13 @@ for( $i = 0; $i < count( $cols ); $i++ ) {
 		else{
 			$columns .= '<th field="' . $cols[$i] . '" width="50" editor="{type:\'validatebox\',options:{}}">' . $cols[$i] . '</th> ';
 			$langs .= '<div><input type="checkbox" name="del_lang[]" value="' . $cols[$i] . '"> ' . $cols[$i] . '</div>';
+			$checked='';
+			if ($cols[$i]==$curralng) {
+				$checked = ' checked="checked"';
+			} else {
+				if ($c_show_langs && (array_search($cols[$i],$show_langs)!==false)) $checked = ' checked="checked"';
+			}
+			$trans_langs .= '<div><input type="checkbox" name="trans_lang[]" '.$checked.' value="' . $cols[$i] . '"> ' . $cols[$i] . '</div>';
 		}
 	}
 }
@@ -123,6 +174,11 @@ $output=<<<OUT
 	<p><b>{$_eb_lang['available_languages']}</b></p>
 	<form action="" method="post" id="del_form">
 		<div>{$langs}<input type="submit" value="{$_eb_lang['delete_languages']}"></div>
+	</form>
+	<p>&nbsp;</p>
+	<p><b>{$_eb_lang['switched_languages']}</b></p>
+	<form action="" method="post" id="trans_form">
+		<div>{$trans_langs}<input type="submit" value="{$_eb_lang['save']}"></div>
 	</form>
 
 </body>
