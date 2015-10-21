@@ -95,6 +95,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $others = array();//массив других языков (кроме текущего)
             $eB->id = $modx->documentIdentifier;
             $siteLangs = $eB->getSiteLangs($eB->lang_template_id);
+			$allowedLangs = $eB->getAllowedLangs();
             //если находимся в корневой папке языка, отправляем на главную страницу этого языка (при условии, что она задана и отличается от текущей)
             if (isset($siteLangs[$eB->id]) && $siteLangs[$eB->id]['home'] != '' && (int)$siteLangs[$eB->id]['home'] != 0 && $siteLangs[$eB->id]['home'] != $eB->id) {
                 $modx->sendRedirect($modx->makeUrl((int)$siteLangs[$eB->id]['home']));
@@ -127,7 +128,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                         }
                     }
                 }
-                $langRows .= str_replace(array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'), array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
+                if (array_search($v['alias'],$allowedLangs)!==false) $langRows .= str_replace(array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'), array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
             }
             $langsList .= str_replace(array('[+wrapper+]'), array($langRows), $langOuter);
 

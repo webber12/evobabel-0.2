@@ -188,6 +188,10 @@ public function checkActivePage($id){//проверка существовани
     return $result;
 }
 
+public function getAllowedLangs(){
+	return $this->trans_langs;
+}
+
 public function getSiteLangs($lang_template_id){
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
