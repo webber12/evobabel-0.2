@@ -66,12 +66,12 @@ private function insert($flds, $table)
 
 
 public function getValue($sql)
-{    
+{
     return $this->modx->db->getValue($this->query($sql));
 }
 
 private function getRecordCount($result)
-{    
+{
     return $this->modx->db->getRecordCount($result);
 }
 //end db functions
@@ -90,9 +90,9 @@ private function getTVName($tvid)
 private function loadLangFile($file)
 {
     if (is_file(dirname(__FILE__) . '/lang/' . $file . '.php')) {
-        include(dirname(__FILE__).'/lang/' . $file . '.php');
+        include(dirname(__FILE__) . '/lang/' . $file . '.php');
     } else {
-        include(dirname(__FILE__).'/lang/ru.php');
+        include(dirname(__FILE__) . '/lang/ru.php');
     }
     $this->eb_lang = $_eb_lang;
 }
@@ -101,7 +101,7 @@ private function loadLangFile($file)
 private function checkNumberString($string)
 {
     $string = trim($string);
-    $tmp = explode(',',$string);
+    $tmp = explode(',', $string);
     $tmp2 = array();
     if (is_array($tmp)) {
         foreach ($tmp as $k => $v) {
@@ -132,9 +132,9 @@ private function saveTV($contentid, $tvid, $tvval)
 }
 
 //or $type=ids tv comma separated
-private function copyTVs($oldid, $newid, $type='full')
-{ 
-    $where='';
+private function copyTVs($oldid, $newid, $type = 'full')
+{
+    $where = '';
     if ($type != 'full') {
         $type = $this->checkNumberString($type);
         if ($type) {
@@ -184,15 +184,13 @@ public function copyDoc($id, $newparent = false, $addzagol = false, $published =
 //проверка существования страницы
 public function checkPage($id)
 {
-    $result = $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id={$id} LIMIT 0, 1");
-    return $result;
+    return $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id={$id} LIMIT 0, 1");
 }
 
 //проверка существования страницы и активности страницы
 public function checkActivePage($id)
 {
-    $result = $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id=" . $id . " AND deleted=0 AND published=1 LIMIT 0, 1");
-    return $result;
+    return $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id=" . $id . " AND deleted=0 AND published=1 LIMIT 0, 1");
 }
 
 //получаем активные языки сайта (опубликованные и неудаленные)
@@ -228,9 +226,9 @@ public function _loadParent($id, $height)
     if ($this->getRecordCount($q) == 1) {
         $q = $this->getRow($q);
         $parents[$q['parent']] = $id;
-        if($height>0 && $q['parent']>0){
+        if ($height > 0 && $q['parent'] > 0) {
             $data = $this->_loadParent($q['parent'], $height--);
-            foreach ($data as $key=>$val) {
+            foreach ($data as $key => $val) {
                 $parents[$key] = $val;
             }
         }
@@ -256,8 +254,7 @@ public function getCurLangId($id)
 //получаем строку отношений для ресурса
 public function getRelations($id)
 {
-    $res = $this->getValue("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $id . " AND tmplvarid=" . $this->rel_tv_id . " LIMIT 0, 1");
-    return $res;
+    return $this->getValue("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $id . " AND tmplvarid=" . $this->rel_tv_id . " LIMIT 0, 1");
 }
 
 //array ['lang_alias']=>['lang_page_id']
@@ -381,7 +378,7 @@ public function showRelations()
     }
 
     //общая "картина" для связей на выход
-    $out.='<h3>' . $this->eb_lang['lang_versions'] . '</h3>
+    $out .= '<h3>' . $this->eb_lang['lang_versions'] . '</h3>
         <div class="eB_row eB_current" style="height:34px;">
             <img src="' . $this->iconfolder . 'page_white_magnify.png" alt="icons_resource_duplicate"/> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
         </div> 
