@@ -12,7 +12,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
         $eB = new evoBabel($modx, (int)$_REQUEST['id'], $params);
 
         /*****************создаем версии********************/
-        if (isset($_GET['ebabel']) && (int)$_GET['ebabel'] != 0 && isset($_GET['parent']) && (int)$_GET['parent'] != 0){
+        if (isset($_GET['ebabel']) && (int)$_GET['ebabel'] != 0 && isset($_GET['parent']) && (int)$_GET['parent'] != 0) {
             $res = $eB->makeVersion();
             echo $res;//возвращаем js для переадресации на текущую страницу
         }

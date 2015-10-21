@@ -15,7 +15,7 @@
 
 
 $e =& $modx->event;
-switch ($e->name ) {
+switch ($e->name) {
     case 'OnParseDocument':
     //	обрабатываем языковые плейсхолдеры вида [%ключ%]
         $source = $modx->documentOutput;

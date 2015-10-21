@@ -12,4 +12,4 @@
  * @internal    @installset base, sample
  */
 
-require MODX_BASE_PATH.'assets/snippets/evoBabel/snippet.evoBabel.php';
+require MODX_BASE_PATH . 'assets/snippets/evoBabel/snippet.evoBabel.php';

@@ -3,7 +3,8 @@
 
 if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
 
-class evoBabel{
+class evoBabel
+{
 
 public $modx;
 public $id; //id текущего ресурса
@@ -13,14 +14,15 @@ public $rel_tv_id;
 public $lang_template_id;
 public $version_lang_id;
 public $version_parent_id;
-public $langs=array();
-public $params=array();
+public $langs = array();
+public $params = array();
 public $topid;
 public $iconfolder;
 public $theme;
 public $language = '';
 
-public function __construct($modx, $id, $params){
+public function __construct($modx, $id, $params)
+{
     $this->modx = $modx;
     $this->id = $id;
     $this->params = $params;
@@ -37,45 +39,56 @@ public function __construct($modx, $id, $params){
 }
 
 //db functions
-public function query($sql){
+public function query($sql)
+{
     return $this->modx->db->query($sql);
 }
 
-private function getRow($result){
+private function getRow($result)
+{
     return $this->modx->db->getRow($result);
 }
 
-private function update($flds,$table,$where){
-    return $this->modx->db->update($flds,$table,$where);
+private function update($flds, $table, $where)
+{
+    return $this->modx->db->update($flds, $table, $where);
 }
 
-private function escape($a){
+private function escape($a)
+{
     return $this->modx->db->escape($a);
 }
 
-private function insert($flds,$table){
-    return $this->modx->db->insert($flds,$table);
+private function insert($flds, $table)
+{
+    return $this->modx->db->insert($flds, $table);
 }
 
 
-public function getValue($sql){    
+public function getValue($sql)
+{    
     return $this->modx->db->getValue($this->query($sql));
 }
 
-private function getRecordCount($result){    
+private function getRecordCount($result)
+{    
     return $this->modx->db->getRecordCount($result);
 }
 //end db functions
 
-private function clearCache($type='full',$report=false){
+private function clearCache($type = 'full', $report = false)
+{
     return $this->modx->clearCache($type, $report);
 }
-private function getTVName($tvid){
+
+private function getTVName($tvid)
+{
     return $this->getValue("SELECT name FROM " . $this->modx->getFullTableName('site_tmplvars') . " WHERE id=" . $tvid . " LIMIT 0, 1");
 }
 
-private function loadLangFile($file) {
-    //подключаем файл перевода
+//подключаем файл перевода
+private function loadLangFile($file)
+{
     if (is_file(dirname(__FILE__) . '/lang/' . $file . '.php')) {
         include(dirname(__FILE__).'/lang/' . $file . '.php');
     } else {
@@ -85,14 +98,15 @@ private function loadLangFile($file) {
 }
 
 //оставляем в "списках через запятую" только цифры и удаляем лишние пробелы
-private function checkNumberString($string){
-    $string=trim($string);
-    $tmp=explode(',',$string);
-    $tmp2=array();
+private function checkNumberString($string)
+{
+    $string = trim($string);
+    $tmp = explode(',',$string);
+    $tmp2 = array();
     if (is_array($tmp)) {
-        foreach ($tmp as $k=>$v) {
+        foreach ($tmp as $k => $v) {
             $v = (int)trim($v);
-            if($v != 0){
+            if($v != 0) {
                 $tmp2[$k] = $v;
             }
         }
@@ -106,17 +120,20 @@ private function checkNumberString($string){
     }
 }
 
-//content functions
-private function saveTV($contentid, $tvid, $tvval) {
+//************* content functions
+private function saveTV($contentid, $tvid, $tvval)
+{
     $isset = $this->getRecordCount($this->query("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $contentid . " AND tmplvarid=" . $tvid . " LIMIT 0, 1"));
     if ($isset) {
-        $this->update(array('value'=>$tvval), $this->tvs_table, "contentid=" . $contentid . " AND tmplvarid=" . $tvid);
+        $this->update(array('value' => $tvval), $this->tvs_table, "contentid=" . $contentid . " AND tmplvarid=" . $tvid);
     } else {
-        $this->insert(array('contentid'=>$contentid, 'tmplvarid'=>$tvid, 'value'=>$tvval), $this->tvs_table);
+        $this->insert(array('contentid' =>$contentid, 'tmplvarid' => $tvid, 'value' => $tvval), $this->tvs_table);
     }
 }
 
-private function copyTVs($oldid, $newid, $type='full'){ //or $type=ids tv comma separated
+//or $type=ids tv comma separated
+private function copyTVs($oldid, $newid, $type='full')
+{ 
     $where='';
     if ($type != 'full') {
         $type = $this->checkNumberString($type);
@@ -133,13 +150,14 @@ private function copyTVs($oldid, $newid, $type='full'){ //or $type=ids tv comma 
     }
 }
 
-public function copyDoc($id, $newparent=false, $addzagol=false, $published=0){
+public function copyDoc($id, $newparent = false, $addzagol = false, $published = 0)
+{
     $new_id = false;
     $sql = "SELECT * FROM " . $this->content_table . " WHERE id=" . $id;
     $docrow = $this->getRow($this->query($sql));
     if (is_array($docrow)) {
         $tmp = array();
-        foreach ($docrow as $k=>$v) {
+        foreach ($docrow as $k => $v) {
             if ($k != 'id') {
                 $tmp[$k] = $this->escape($v);
             }
@@ -150,7 +168,7 @@ public function copyDoc($id, $newparent=false, $addzagol=false, $published=0){
             $tmp['pagetitle'] = $addzagol ? $tmp['pagetitle'] . ' (' . $addzagol . ')' : $tmp['pagetitle'];
             $new_id = $this->insert($tmp, $this->content_table);
             if ($new_id) {
-                $isfolder = $this->update(array('isfolder'=>'1'), $this->content_table, 'isfolder=0 AND id=' . $tmp['parent']);
+                $isfolder = $this->update(array('isfolder' => '1'), $this->content_table, 'isfolder=0 AND id=' . $tmp['parent']);
                 $tvs = $this->copyTVs($id, $new_id);
                 $groups = $this->copyDocGroups($id, $new_id);
                 $this->clearCache();
@@ -160,19 +178,26 @@ public function copyDoc($id, $newparent=false, $addzagol=false, $published=0){
     return $new_id;
 }
 
-// end content functions
+//****************** end content functions
 
-public function checkPage($id){//проверка существования страницы
+
+//проверка существования страницы
+public function checkPage($id)
+{
     $result = $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id={$id} LIMIT 0, 1");
     return $result;
 }
 
-public function checkActivePage($id){//проверка существования страницы и активности страницы
+//проверка существования страницы и активности страницы
+public function checkActivePage($id)
+{
     $result = $this->getValue("SELECT id FROM " . $this->content_table . " WHERE id=" . $id . " AND deleted=0 AND published=1 LIMIT 0, 1");
     return $result;
 }
 
-public function getSiteLangs($lang_template_id){
+//получаем активные языки сайта (опубликованные и неудаленные)
+public function getSiteLangs($lang_template_id)
+{
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
         $langs[$row['id']]['lang'] = $row['pagetitle'];
@@ -183,7 +208,9 @@ public function getSiteLangs($lang_template_id){
     return $langs;
 }
 
-public function getAllSiteLangs($lang_template_id){
+//получаем все языки сайта, в том числе удаленные и неопубликованные
+public function getAllSiteLangs($lang_template_id)
+{
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " ORDER BY menuindex ASC");
     while($row = $this->getRow($q)){
         $langs[$row['id']]['lang'] = $row['pagetitle'];
@@ -194,7 +221,8 @@ public function getAllSiteLangs($lang_template_id){
     return $langs;
 }
 
-public function _loadParent($id, $height){
+public function _loadParent($id, $height)
+{
     $parents = array();
     $q = $this->query("SELECT parent FROM " . $this->content_table." WHERE id=" . (int)$id);
     if ($this->getRecordCount($q) == 1) {
@@ -210,30 +238,35 @@ public function _loadParent($id, $height){
     return $parents;
 }
 
-public function getParentIds($id, $height = 10) {
+public function getParentIds($id, $height = 10)
+{
     $parents = $this->_loadParent($id,$height);
     reset($parents);
     unset($parents[key($parents)]);
     return $parents;
 }
 
-public function getCurLangId($id){
+public function getCurLangId($id)
+{
     $res = $this->getParentIds($id);
     return $res[0];
 }
 
 
-
-public function getRelations($id){//получаем строку отношений для ресурса
+//получаем строку отношений для ресурса
+public function getRelations($id)
+{
     $res = $this->getValue("SELECT value FROM " . $this->tvs_table . " WHERE contentid=" . $id . " AND tmplvarid=" . $this->rel_tv_id . " LIMIT 0, 1");
     return $res;
 }
 
-public function getRelationsArray($relations){ //array ['lang_alias']=>['lang_page_id']
-    $arr=array();
+//array ['lang_alias']=>['lang_page_id']
+public function getRelationsArray($relations)
+{
+    $arr = array();
     if ($relations != '') {
         $arr1 = explode("||", $relations);
-        foreach ($arr1 as $k=>$v) {
+        foreach ($arr1 as $k => $v) {
             if (isset($v) && $v != '') {
                 $arr2 = explode(":", $v);
                 $arr[$arr2[0]] = $arr2[1];
@@ -243,24 +276,27 @@ public function getRelationsArray($relations){ //array ['lang_alias']=>['lang_pa
     return $arr;
 }
 
-public function getFullRelationsArray($id, $langsArray){//полные отношения - недостающие заменяем на корневые языки
+//полные отношения - недостающие заменяем на корневые языки
+public function getFullRelationsArray($id, $langsArray)
+{
     if (!isset($langsArray[$id])) {
         $relations = $this->getRelations($id);
         $relationsArray = $this->getRelationsArray($relations);
-        foreach ($langsArray as $k=>$v) {
+        foreach ($langsArray as $k => $v) {
             if (!isset($relationsArray[$v['alias']])) {
                 $relationsArray[$v['alias']] = $k;
             }
         }
     } else {
-        foreach ($langsArray as $k=>$v) {
+        foreach ($langsArray as $k => $v) {
             $relationsArray[$v['alias']] = $k;
         }
     }
     return $relationsArray;
 }
 
-public function makeVersion(){
+public function makeVersion()
+{
     $this->version_lang_id = (int)$_GET['ebabel'];
     $this->version_parent_id = (int)$_GET['parent'];
     //копируем ресурс вместе со всеми ТВ
@@ -294,7 +330,8 @@ public function makeVersion(){
     }
 }
 
-public function showRelations(){
+public function showRelations()
+{
     $out = '';
     $rel_rows = '';
 
@@ -311,23 +348,23 @@ public function showRelations(){
         foreach ($this->langs as $k=>$v){
             if ($k != $this->topid) {
                 if (isset($rels[$v['alias']]) && $this->checkPage($rels[$v['alias']])) {
-                    $rel_rows.='
+                    $rel_rows .= '
                         <div class="eB_row" style="height:34px;">
-                            <a href="index.php?a=27&id='.$rels[$v['alias']].'" class="primary">
-                                <img alt="icons_save" src="'.$this->iconfolder.'save.png"/> '.$v['lang'].' -  ' . $this->eb_lang['jump_version'] . '
+                            <a href="index.php?a=27&id=' . $rels[$v['alias']] . '" class="primary">
+                                <img alt="icons_save" src="' . $this->iconfolder . 'save.png"/> ' . $v['lang'] . ' -  ' . $this->eb_lang['jump_version'] . '
                             </a>
                         </div>';
                 } else {
                 $rel_rows .= '
                     <div class="eB_row" style="height:34px;"> 
-                        <a href="index.php?a=27&id='.$this->id.'&ebabel='.$k.'&parent='.$parent_rels[$v['alias']].'">
-                            <img src="'.$this->iconfolder.'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'].' - ' . $this->eb_lang['create_version'] . '
+                        <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
+                            <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> ' . $v['lang'] . ' - ' . $this->eb_lang['create_version'] . '
                         </a>
                     </div>';
                 }
             }
         }
-        $rel_rows .= '<input type="hidden" name="tv'.$this->rel_tv_id.'" value="'.$relation.'">';
+        $rel_rows .= '<input type="hidden" name="tv' . $this->rel_tv_id . '" value="' . $relation . '">';
     } else {//если связей нет, то выводим ссылки на создание без проверок
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
@@ -336,7 +373,7 @@ public function showRelations(){
                         <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
                     </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                    $rel_rows .= '<b><font color=red>' . $this->eb_lang['attention'] . '</font></b> ' . $this->eb_lang['parent_version_recommend'] . ' <a href="index.php?a=27&id='.$parent_id.'"><img src="'.$this->iconfolder.'delete.png" alt="icons_delete_document"/> ' . $this->eb_lang['of_parent'] . '</a>';
+                    $rel_rows .= '<b><font color=red>' . $this->eb_lang['attention'] . '</font></b> ' . $this->eb_lang['parent_version_recommend'] . ' <a href="index.php?a=27&id=' . $parent_id . '"><img src="' . $this->iconfolder . 'delete.png" alt="icons_delete_document"/> ' . $this->eb_lang['of_parent'] . '</a>';
                 }
                 $rel_rows .= '</div>';
             }
@@ -348,12 +385,13 @@ public function showRelations(){
         <div class="eB_row eB_current" style="height:34px;">
             <img src="' . $this->iconfolder . 'page_white_magnify.png" alt="icons_resource_duplicate"/> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
         </div> 
-        <div class="actionButtons">'.$rel_rows.'</div>
+        <div class="actionButtons">' . $rel_rows . '</div>
     ';
     return $out;
 }
 
-public function synchTVs($synch_TV, $synch_template, $id){
+public function synchTVs($synch_TV, $synch_template, $id)
+{
     $synch_template = $this->checkNumberString($synch_template);
     $synch_TV = $this->checkNumberString($synch_TV);
     if ($synch_template && $synch_TV) {
@@ -387,7 +425,9 @@ public function synchTVs($synch_TV, $synch_template, $id){
     return true;
 }
 
-public function makeDelRelsArray($del_ids){//формируем массив для удаления связей перед очисткой корзины
+//формируем массив для удаления связей перед очисткой корзины
+public function makeDelRelsArray($del_ids)
+{
     $del_array = array();
     $q = $this->query("SELECT contentid,value FROM " . $this->tvs_table . " WHERE contentid IN ({$del_ids}) AND tmplvarid={$this->rel_tv_id}");
     while ($row = $this->getRow($q)) {
@@ -399,7 +439,9 @@ public function makeDelRelsArray($del_ids){//формируем массив д�
     return $del_array;
 }
 
-public function updateDeletedRelations($del_array){//обновляем связи после окончательной очистки корзины
+//обновляем связи после окончательной очистки корзины
+public function updateDeletedRelations($del_array)
+{
     foreach($del_array as $del_id=>$del_rels){
         if (is_array($del_rels)) {
             $newrel = '';
@@ -428,7 +470,9 @@ public function updateDeletedRelations($del_array){//обновляем связ
     }
 }
 
-public function copyDocGroups($old_id, $new_id) {//копируем права доступа - группы, к которым принадлежит документ
+//копируем права доступа - группы, к которым принадлежит документ
+private function copyDocGroups($old_id, $new_id)
+{
     $q = $this->modx->db->select("document_group", $this->modx->getFullTableName('document_groups'), "document=" . $old_id);
     $values = array();
     while ($row = $this->getRow($q)) {
