@@ -58,11 +58,11 @@ private function insert($flds,$table){
 }
 
 
-public function getValue($sql){	
+public function getValue($sql){    
     return $this->modx->db->getValue($this->query($sql));
 }
 
-private function getRecordCount($result){	
+private function getRecordCount($result){    
     return $this->modx->db->getRecordCount($result);
 }
 //end db functions
@@ -81,7 +81,7 @@ private function loadLangFile($file) {
     } else {
         include(dirname(__FILE__).'/lang/ru.php');
     }
-	$this->eb_lang = $_eb_lang;
+    $this->eb_lang = $_eb_lang;
 }
 
 //оставляем в "списках через запятую" только цифры и удаляем лишние пробелы
@@ -152,6 +152,7 @@ public function copyDoc($id, $newparent=false, $addzagol=false, $published=0){
             if ($new_id) {
                 $isfolder = $this->update(array('isfolder'=>'1'), $this->content_table, 'isfolder=0 AND id=' . $tmp['parent']);
                 $tvs = $this->copyTVs($id, $new_id);
+                $groups = $this->copyDocGroups($id, $new_id);
                 $this->clearCache();
             }
         }
@@ -185,7 +186,7 @@ public function getSiteLangs($lang_template_id){
 public function getAllSiteLangs($lang_template_id){
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " ORDER BY menuindex ASC");
     while($row = $this->getRow($q)){
-		$langs[$row['id']]['lang'] = $row['pagetitle'];
+        $langs[$row['id']]['lang'] = $row['pagetitle'];
         $langs[$row['id']]['name'] = $row['longtitle'];
         $langs[$row['id']]['home'] = $row['description'];
         $langs[$row['id']]['alias'] = $row['alias'];
@@ -425,6 +426,19 @@ public function updateDeletedRelations($del_array){//обновляем связ
             }
         }
     }
+}
+
+public function copyDocGroups($old_id, $new_id) {//копируем права доступа - группы, к которым принадлежит документ
+    $q = $this->modx->db->select("document_group", $this->modx->getFullTableName('document_groups'), "document=" . $old_id);
+    $values = array();
+    while ($row = $this->getRow($q)) {
+        $values[] = "(" . $row['document_group'] . ", " . $new_id . ")";
+    }
+    if (count($values)) {
+        $sql = "INSERT INTO " . $this->modx->getFullTableName('document_groups') . " (document_group,document) VALUES " . implode(",", $values);
+        $this->query($sql);
+    }
+    return count($values);
 }
 
 
