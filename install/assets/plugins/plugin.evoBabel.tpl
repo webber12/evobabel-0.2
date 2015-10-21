@@ -95,6 +95,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $others = array();//массив других языков (кроме текущего)
             $eB->id = $modx->documentIdentifier;
             $siteLangs = $eB->getSiteLangs($eB->lang_template_id);
+            $siteAllLangs = $eB->getAllSiteLangs($eB->lang_template_id);
             //если находимся в корневой папке языка, отправляем на главную страницу этого языка (при условии, что она задана и отличается от текущей)
             if (isset($siteLangs[$eB->id]) && $siteLangs[$eB->id]['home'] != '' && (int)$siteLangs[$eB->id]['home'] != 0 && $siteLangs[$eB->id]['home'] != $eB->id) {
                 $modx->sendRedirect($modx->makeUrl((int)$siteLangs[$eB->id]['home']));
@@ -137,7 +138,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
 
             //получаем массив перевода для чанков в сессию
             $perevod = array();
-            $cur_lexicon = $siteLangs[$curr_lang_id]['alias'];
+            $cur_lexicon = $siteAllLangs[$curr_lang_id]['alias'];
             $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon'));
             while ($row = $modx->db->getRow($q)) {
                 $perevod[$row['name']] = $row[$cur_lexicon];
