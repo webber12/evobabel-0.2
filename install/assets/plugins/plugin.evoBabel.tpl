@@ -90,6 +90,9 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             //обертка списка языков
             $langOuter = isset($langOuter) ? $langOuter : '<div class="other_langs">[+wrapper+]</div>';
 
+        //фикс для OnWebPageInit на несуществующей странице с несуществующим documentIdentifier
+        if ($modx->documentIdentifier && $modx->documentIdentifier != 0 && $modx->documentIdentifier != '0' && !empty($modx->documentIdentifier) ) {
+
             $out = '';
             $langs = array();
             $others = array();//массив других языков (кроме текущего)
@@ -145,6 +148,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             }
             $_SESSION['evoBabel_curLang'] = $cur_lexicon;
             $_SESSION['perevod'] = $perevod;
+        }
             break;
         case 'OnDocDuplicate' :
             if ($e->params['new_id']) {
