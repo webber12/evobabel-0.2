@@ -88,7 +88,7 @@ $output=<<<OUT
 	</form>
 </div>
 	<div class="table" style="width:100%;">
-    <table id="dg" title="{$_eb_lang['translation_management']}" style="width:750px;height:500px"
+    <table id="dg" title="{$_eb_lang['translation_management']}" style="min-width:750px;width:auto;height:500px"
             toolbar="#toolbar" pagination="false" idField="id"
             rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
