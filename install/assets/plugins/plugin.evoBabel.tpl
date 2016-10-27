@@ -8,7 +8,7 @@
  * @version	    0.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal    @events OnPageNotFound,OnDocFormSave,OnBeforeEmptyTrash,OnEmptyTrash,OnWebPageInit,OnDocDuplicate
- * @internal    @properties &synch_TV=ids TV для синхронизации;text; &synch_template=ids шаблонов для синхронизации;text; &config=Файл шаблонов;text;assets/snippets/evoBabel/config/config.php
+ * @internal    @properties &synch_TV=ids TV для синхронизации;text;&synch_template=ids шаблонов для синхронизации;text;&config=Файл шаблонов;text;assets/snippets/evoBabel/config/config.php
  * @internal    @installset MultiLang
  * @internal	@modx_category Manager and Admin
  */
