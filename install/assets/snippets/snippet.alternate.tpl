@@ -6,7 +6,7 @@
  *
  * @author	    webber (web-ber12@yandex.ru)
  * @category 	snippet
- * @version 	0.2
+ * @version 	0.21
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties 
  * @internal	@modx_category MultiLang

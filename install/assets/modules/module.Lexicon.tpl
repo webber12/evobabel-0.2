@@ -6,7 +6,7 @@
  * 
  * @author	    webber (web-ber12@yandex.ru)
  * @category	module
- * @version 	0.2
+ * @version 	0.21
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@guid evobabels
  * @internal    @properties &lang_template_id=id шаблона языка;text;&rel_tv_id=id TV языковых связей;text;&currlang=язык по умолчанию;text;ru&show_panel=Показывать панель;text;1&publish=Публиковать (0 -нет, 1 - да);text;0&translate_lang=язык переводов;text;ru
