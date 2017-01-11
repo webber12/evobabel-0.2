@@ -1,6 +1,6 @@
 ### author webber (web-ber12@yandex.ru)
 
-### evoBabel - мультиязычные сайты для modx evolution (версия 0.2)
+### evoBabel - мультиязычные сайты для modx evolution (версия 0.21)
 
 ### DONATE
 ---------

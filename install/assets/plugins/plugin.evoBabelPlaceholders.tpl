@@ -5,9 +5,9 @@
  *
  * @author	    webber (web-ber12@yandex.ru)
  * @category	plugin
- * @version	    0.2
+ * @version	    0.21
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @internal    @events OnParseDocument
+ * @internal    @events OnBeforeParseParams,OnParseDocument
  * @internal    @properties 
  * @internal    @installset MultiLang
  * @internal	@modx_category Manager and Admin
@@ -17,6 +17,7 @@
 $e =& $modx->event;
 switch ($e->name) {
     case 'OnParseDocument':
+    case 'OnBeforeParseParams':
     //	обрабатываем языковые плейсхолдеры вида [%ключ%]
         $source = $modx->documentOutput;
         $source = $this->mergeSettingsContent($source);
