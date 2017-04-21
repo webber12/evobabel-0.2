@@ -142,6 +142,10 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             //получаем массив перевода для чанков в сессию
             $perevod = array();
             $cur_lexicon = $siteAllLangs[$curr_lang_id]['alias'];
+            if($cur_lexicon == ''){
+				$doc = $modx->getDocument($modx->documentIdentifier);
+				$cur_lexicon = $doc['alias'];	
+			} 
             $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon'));
             while ($row = $modx->db->getRow($q)) {
                 $perevod[$row['name']] = $row[$cur_lexicon];
