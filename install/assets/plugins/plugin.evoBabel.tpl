@@ -112,7 +112,9 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
 
             //устанавливаем список языков с учетом активного
             $langRows = '';
-
+			$langRowsNotActive = '';
+			//print_r($siteLangs);
+			//print_r($curr_lang_id);
             foreach ($siteLangs as $k=>$v) {
                 $tpl = ($k != $curr_lang_id ? $unactiveRow : $activeRow);
                 if (isset($relArray[$v['alias']]) && $eB->checkActivePage($relArray[$v['alias']])) {//если есть связь и эта страница активна
@@ -127,18 +129,32 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                         if (isset($relParentArray[$v['alias']]) && $eB->checkActivePage($relParentArray[$v['alias']])) {//у родителя активная связь
                             $url = $relParentArray[$v['alias']];
                         } else {//иначе -> на главную страницу языка
-                            $url = ((int)$v['home'] != 0 ? (int)$v['home'] : $k);
+							$url = ((int)$v['home'] != 0 ? (int)$v['home'] : $k);
+							//echo 'Нет родителя<pre>';print_r($v);echo '</pre>';
                         }
                     }
                 }
-                $langRows .= str_replace(array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'), array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
+				// добавлено, чтобы выводить все языки, кроме активного
+				//echo $k.'-'.$modx->documentIdentifier;
+					if ($k != $curr_lang_id && $k != $modx->documentIdentifier){// fix для шаблона языка
+						$langRowsNotActive .= str_replace(
+							array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'),
+							array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
+					}
+					// \добавлено, чтобы выводить все языки, кроме активного
+                $langRows .= str_replace(
+					array('[+alias+]', '[+url+]', '[+name+]', '[+lang+]'), 
+					array($v['alias'], $modx->makeUrl($url), $v['name'], $v['lang']), $tpl);
             }
             $langsList .= str_replace(array('[+wrapper+]'), array($langRows), $langOuter);
-
+			// добавлено, чтобы выводить все языки, кроме активного
+			$langsListAct .= str_replace(array('[+wrapper+]'), array($langRowsNotActive), $langOuter);
+			// \добавлено, чтобы выводить все языки, кроме активного
             // устанавливаем плейсхолдеры [+activeLang+] и [+switchLang+] для вывода активного языка и списка языков соответственно
             $modx->setPlaceholder("activeLang", $currLang);
             $modx->setPlaceholder("switchLang", $langsList);
-
+			$modx->setPlaceholder("activeLangs", $langsListAct);
+			$modx->setPlaceholder("babelId",$curr_lang_id);
             //получаем массив перевода для чанков в сессию
             $perevod = array();
             $cur_lexicon = $siteAllLangs[$curr_lang_id]['alias'];
