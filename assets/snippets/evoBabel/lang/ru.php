@@ -10,6 +10,7 @@ $_eb_lang['create_version'] = 'Создать';
 $_eb_lang['jump_version'] = 'Перейти';
 $_eb_lang['attention'] = 'Внимание!';
 $_eb_lang['of_parent'] = 'родителя';
+$_eb_lang['no_parent'] = 'Создать родителя';
 $_eb_lang['parent_version_recommend'] = 'Рекомендуем сначала создать языковую версию';
 
 //module lexicon lang
