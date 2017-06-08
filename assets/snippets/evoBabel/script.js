@@ -1,21 +1,25 @@
 ﻿window.addEvent("domready", function() {
     $('eB_relations').set({
         styles:{
-            'position' : 'absolute',
-            'top' : '1px',
-            'right' : '1px',
+            'position' : 'fixed',
+            'right' : '15px',
+			'bottom':'0',
+			'left':'15px',
             'background' : '#f1f1f1',
-            'width':'172px',
-            'border':'solid 1px #dddddd',
-            'padding':'1px'
+            'border-top':'solid 1px #dddddd',
+            'border-bottom':'solid 1px #dddddd',
+            'padding':'2px 7px',
+			'z-index':'10'
         }
     });
     $$('#eB_relations a').set({
         styles:{
-            'width':'158px',
-            'display':'block',
-            'height':'20px',
-            'line-height':'20px'
+            'display':'inline-block',
+            'height':'auto',
+            'line-height':'normal',
+			'padding':'6px',
+			'box-sizing':'border-box',
+			'margin':'0 5px'
         }
     });
     $$('#eB_relations img').set({
@@ -23,31 +27,33 @@
             'margin-right':'6px'
         }
     });
-    $$('.eB_current').set({
+    $$('.exists').set({
         styles:{
-            'width':'158px',
-            'display':'block',
-            'height':'20px',
-            'line-height':'20px',
-            'background':'#fafafa',
-            'padding':'7px 8px 7px 4px',
-            'border-top':'solid 1px #dddddd',
-            'border-bottom':'solid 1px #dddddd'
+            'background':'#32AB9A',
+			'color':'#fff',
+			'text-decoration':'none'
         }
     });
-    $$('.eB_row').set({
+    $$('.eb_error').set({
         styles:{
-            'height':'auto'
+			'color':'red',
+			'text-decoration':'none'
+        }
+    });
+	$$('.create').set({
+        styles:{
+			'color':'#888'
         }
     });
     $$('#eB_relations h3').set({
         styles:{
-            'height':'35px',
-            'line-height':'35px',
             'margin':'0',
             'text-align':'center',
             'font-size':'14px',
-            'font-weight':'bold'
+            'font-weight':'bold',
+            'display':'inline-block',
+			'color':'#000',
+			'margin-right':'7px'
         }
     });
     $("eB_relations").getParent().getParent().setStyle('display', 'none');
