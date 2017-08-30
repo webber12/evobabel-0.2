@@ -346,18 +346,15 @@ public function showRelations()
             if ($k != $this->topid) {
                 if (isset($rels[$v['alias']]) && $this->checkPage($rels[$v['alias']])) {
                     $rel_rows .= '
-                        <div class="eB_row" style="height:34px;">
-                            <a href="index.php?a=27&id=' . $rels[$v['alias']] . '" class="primary">
-                                <img alt="icons_save" src="' . $this->iconfolder . 'save.png"/> ' . $v['lang'] . ' -  ' . $this->eb_lang['jump_version'] . '
-                            </a>
-                        </div>';
+                        <a href="index.php?a=27&id=' . $rels[$v['alias']] . '" class="primary exists">
+                           <i class="fa fa-pencil-square-o" aria-hidden="true"></i> ' . $v['lang'] . ' -  ' . $this->eb_lang['jump_version'] . '
+                        </a>
+                        ';
                 } else {
                 $rel_rows .= '
-                    <div class="eB_row" style="height:34px;"> 
-                        <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
-                            <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> ' . $v['lang'] . ' - ' . $this->eb_lang['create_version'] . '
-                        </a>
-                    </div>';
+                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="create">
+                        <i class="fa fa-clipboard" aria-hidden="true"></i> ' . $v['lang'] . ' - ' . $this->eb_lang['create_version'] . '
+                    </a>';
                 }
             }
         }
@@ -365,25 +362,23 @@ public function showRelations()
     } else {//если связей нет, то выводим ссылки на создание без проверок
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
-                $rel_rows .= '<div class="eB_row" style="height:34px;">
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
-                        <img src="' . $this->iconfolder . 'page_white_copy.png" alt="icons_resource_duplicate"/> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
-                    </a>';
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                    $rel_rows .= '<b><font color=red>' . $this->eb_lang['attention'] . '</font></b> ' . $this->eb_lang['parent_version_recommend'] . ' <a href="index.php?a=27&id=' . $parent_id . '"><img src="' . $this->iconfolder . 'delete.png" alt="icons_delete_document"/> ' . $this->eb_lang['of_parent'] . '</a>';
+                     $rel_rows .= '<a class="eb_error" href="index.php?a=27&id=' . $parent_id . '"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '.$v['lang'] .' - ' . $this->eb_lang['no_parent'] . '</a>';
+                } else {
+                    $rel_rows .= '
+                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
+                        <i class="fa fa-clipboard" aria-hidden="true"></i> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
+                    </a>';
                 }
-                $rel_rows .= '</div>';
             }
         }
     }
 
     //общая "картина" для связей на выход
-    $out .= '<h3>' . $this->eb_lang['lang_versions'] . '</h3>
-        <div class="eB_row eB_current" style="height:34px;">
-            <img src="' . $this->iconfolder . 'page_white_magnify.png" alt="icons_resource_duplicate"/> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
-        </div> 
-        <div class="actionButtons">' . $rel_rows . '</div>
-    ';
+    $out .= '<h3>' . $this->eb_lang['lang_versions'] . ': </h3>
+             <i class="fa fa-file-text" aria-hidden="true"></i> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
+            ' . $rel_rows . '
+      ';
     return $out;
 }
 
