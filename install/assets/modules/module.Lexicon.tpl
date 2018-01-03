@@ -4,13 +4,13 @@
  * 
  * manage Lexicon
  * 
- * @author	    webber (web-ber12@yandex.ru)
- * @category	module
- * @version 	0.21
- * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @internal	@guid evobabels
+ * @author      webber (web-ber12@yandex.ru)
+ * @category    module
+ * @version     0.21
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
+ * @internal    @guid evobabels
  * @internal    @properties &lang_template_id=id шаблона языка;text;&rel_tv_id=id TV языковых связей;text;&currlang=язык по умолчанию;text;ru&show_panel=Показывать панель;text;1&publish=Публиковать (0 -нет, 1 - да);text;0&translate_lang=язык переводов;text;ru
- * @internal	@modx_category MultiLang
+ * @internal    @modx_category MultiLang
  * @internal    @installset base, sample
  */
 
@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS " . $modx->getFullTableName('lexicon') . " (
 $q=$modx->db->query($sql);
 
 if(isset($_POST['newlang'])&&$_POST['newlang'] != ''){
-	$newlang = $modx->db->escape($_POST['newlang']);
-	$q = $modx->db->query("ALTER TABLE " . $modx->getFullTableName('lexicon') . " ADD `" . $newlang . "` varchar(255)");
+    $newlang = $modx->db->escape($_POST['newlang']);
+    $q = $modx->db->query("ALTER TABLE " . $modx->getFullTableName('lexicon') . " ADD `" . $newlang . "` varchar(255)");
 }
 if(isset($_POST['del_lang']) && is_array($_POST['del_lang'])){
-	$del_lang = $_POST['del_lang'];
-	foreach ($del_lang as $k) {
-		$q = $modx->db->query("ALTER TABLE " . $modx->getFullTableName('lexicon') . " DROP `" . $k . "`");
-	}
+    $del_lang = $_POST['del_lang'];
+    foreach ($del_lang as $k) {
+        $q = $modx->db->query("ALTER TABLE " . $modx->getFullTableName('lexicon') . " DROP `" . $k . "`");
+    }
 }
 
 //получаем названия колонок
@@ -52,15 +52,15 @@ $lang = '';
 $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon') . " LIMIT 0,1");
 $cols = $modx->db->getColumnNames($q);
 for( $i = 0; $i < count( $cols ); $i++ ) { 
-	if($cols[$i] != 'name') {
-		if($cols[$i] == 'id') {
-			$columns .= '<th field="' . $cols[$i] . '" width="50" editor="{}">' . $cols[$i] . '</th> ';
-		}
-		else{
-			$columns .= '<th field="' . $cols[$i] . '" width="50" editor="{type:\'validatebox\',options:{}}">' . $cols[$i] . '</th> ';
-			$langs .= '<div><input type="checkbox" name="del_lang[]" value="' . $cols[$i] . '"> ' . $cols[$i] . '</div>';
-		}
-	}
+    if($cols[$i] != 'name') {
+        if($cols[$i] == 'id') {
+            $columns .= '<th field="' . $cols[$i] . '" width="50" editor="{}">' . $cols[$i] . '</th> ';
+        }
+        else{
+            $columns .= '<th field="' . $cols[$i] . '" width="50" editor="{type:\'validatebox\',options:{}}">' . $cols[$i] . '</th> ';
+            $langs .= '<div><input type="checkbox" name="del_lang[]" value="' . $cols[$i] . '"> ' . $cols[$i] . '</div>';
+        }
+    }
 }
 
 
@@ -68,26 +68,21 @@ $output=<<<OUT
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>MODx EVO Lexicons</title>
-	<link rel="stylesheet" type="text/css" href="media/style/{$theme}/style.css" />
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/demo/demo.css">
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.min.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/plugins/jquery.edatagrid.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}datagrid-filter/datagrid-filter.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/locale/easyui-lang-ru.js"></script>
+    <meta charset="UTF-8">
+    <title>EVO-LEXICONS</title>
+    <link rel="stylesheet" type="text/css" href="media/style/{$theme}/style.css" />
+    <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/demo/demo.css">
+    <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/plugins/jquery.edatagrid.js"></script>
+    <script type="text/javascript" src="{$lexicon_path}datagrid-filter/datagrid-filter.js"></script>
+    <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/locale/easyui-lang-ru.js"></script>
 </head>
 <body>
+<h1 style="padding:0;padding-bottom:20px;"><i class="fa fa-pencil-square-o"></i>EVO-LEXICONS</h1>
 
-<div class="create" style="padding:10px 0;">
-	<form action="" method="post" id="lang_form">
-		<div>{$_eb_lang['new_language_name']} <input type="text" name="newlang" value="" style="width:90px"> <input type="submit" value="{$_eb_lang['create_new_language']}"></div>
-	</form>
-</div>
-	
 <div class="table" style="width:100%;">
     <table id="dg" title="{$_eb_lang['translation_management']}" style="min-width:750px;width:auto;height:500px"
             toolbar="#toolbar" pagination="false" idField="id"
@@ -100,7 +95,7 @@ $output=<<<OUT
         </thead>
     </table>
 </div>
-
+                
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">{$_eb_lang['create']}</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">{$_eb_lang['delete']}</a>
@@ -120,11 +115,20 @@ $output=<<<OUT
 
         });
     </script>
-	<p>&nbsp;</p>
-	<p><b>{$_eb_lang['available_languages']}</b></p>
-	<form action="" method="post" id="del_form">
-		<div>{$langs}<input type="submit" value="{$_eb_lang['delete_languages']}"></div>
-	</form>
+    <div class="create" style="padding:10px 0;">
+        <p style="text-transform:uppercase;"><b>{$_eb_lang['create_new_language']}</b></p>
+        <form action="" method="post" id="lang_form">
+            <div>
+                <input type="text" name="newlang" value="" style="width:300px" placeholder="{$_eb_lang['new_language_name']}">
+                <input type="submit" value="{$_eb_lang['create_new_language']}">
+            </div>
+        </form>
+    </div>
+    <hr>
+    <p style="text-transform:uppercase;"><b>{$_eb_lang['available_languages']}</b></p>
+    <form action="" method="post" id="del_form">
+        <div>{$langs}<br><input type="submit" value="{$_eb_lang['delete_languages']}"></div>
+    </form>
 
 </body>
 </html>

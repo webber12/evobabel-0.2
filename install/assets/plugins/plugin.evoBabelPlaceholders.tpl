@@ -10,7 +10,7 @@
  * @internal    @events OnBeforeParseParams,OnParseDocument
  * @internal    @properties 
  * @internal    @installset MultiLang
- * @internal	@modx_category Manager and Admin
+ * @internal	@modx_category MultiLang
  */
 
 

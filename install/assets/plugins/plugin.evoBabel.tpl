@@ -10,7 +10,7 @@
  * @internal    @events OnPageNotFound,OnDocFormSave,OnBeforeEmptyTrash,OnEmptyTrash,OnWebPageInit,OnDocDuplicate
  * @internal    @properties &synch_TV=ids TV для синхронизации;text;&synch_template=ids шаблонов для синхронизации;text;&config=Файл шаблонов;text;assets/snippets/evoBabel/config/config.php
  * @internal    @installset MultiLang
- * @internal	@modx_category Manager and Admin
+ * @internal	@modx_category MultiLang
  */
 
 if (!defined('MODX_BASE_PATH')) {
