@@ -71,35 +71,36 @@ $output=<<<OUT
 	<meta charset="UTF-8">
 	<title>MODx EVO Lexicons</title>
 	<link rel="stylesheet" type="text/css" href="media/style/{$theme}/style.css" />
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.3.4/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.3.4/themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.3.4/demo/demo.css">
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.3.4/jquery.min.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.3.4/plugins/jquery.edatagrid.js"></script>
+	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/demo/demo.css">
+	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/plugins/jquery.edatagrid.js"></script>
 	<script type="text/javascript" src="{$lexicon_path}datagrid-filter/datagrid-filter.js"></script>
-	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.3.4/locale/easyui-lang-ru.js"></script>
+	<script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/locale/easyui-lang-ru.js"></script>
 </head>
 <body>
 
 <div class="create" style="padding:10px 0;">
 	<form action="" method="post" id="lang_form">
-		<div>{$_eb_lang['new_language_name']} <input type="text" name="newlang" value=""> <input type="submit" value="{$_eb_lang['create_new_language']}"></div>
+		<div>{$_eb_lang['new_language_name']} <input type="text" name="newlang" value="" style="width:90px"> <input type="submit" value="{$_eb_lang['create_new_language']}"></div>
 	</form>
 </div>
-	<div class="table" style="width:100%;">
+	
+<div class="table" style="width:100%;">
     <table id="dg" title="{$_eb_lang['translation_management']}" style="min-width:750px;width:auto;height:500px"
             toolbar="#toolbar" pagination="false" idField="id"
             rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
             <tr>
                 <th field="name" width="50" editor="{type:'validatebox',options:{required:true}}">{$_eb_lang['param_name']}</th>
-				{$columns}
+                {$columns}
             </tr>
         </thead>
     </table>
 </div>
-				
+
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">{$_eb_lang['create']}</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">{$_eb_lang['delete']}</a>
@@ -109,13 +110,13 @@ $output=<<<OUT
     <script type="text/javascript">
         $(function(){
             var dg = $('#dg').edatagrid({
-				url: '{$actions_path}?action=get',
+                url: '{$actions_path}?action=get',
                 saveUrl: '{$actions_path}?action=save',
                 updateUrl: '{$actions_path}?action=update',
                 destroyUrl: '{$actions_path}?action=destroy'
             });
-			
-			dg.edatagrid('enableFilter');
+
+            dg.edatagrid('enableFilter');
 
         });
     </script>
