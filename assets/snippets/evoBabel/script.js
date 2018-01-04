@@ -56,6 +56,7 @@
             'margin-right':'7px'
         }
     });
-    $("eB_relations").getParent().getParent().setStyle('display', 'none');
+    $("eB_relations").getParent().getParent().getParent().setStyle('display', 'none');
+    $("eB_relations").getParent().getParent().getParent().getNext().setStyle('display', 'none');
     $("tabGeneral").insertBefore($("eB_relations"), $("tabGeneral").firstChild);
 })
