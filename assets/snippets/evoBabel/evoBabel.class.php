@@ -352,7 +352,7 @@ public function showRelations()
                         ';
                 } else {
                 $rel_rows .= '
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="create">
+                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="primary create">
                         <i class="fa fa-clipboard" aria-hidden="true"></i> ' . $v['lang'] . ' - ' . $this->eb_lang['create_version'] . '
                     </a>';
                 }
@@ -366,7 +366,7 @@ public function showRelations()
                      $rel_rows .= '<a class="eb_error" href="index.php?a=27&id=' . $parent_id . '"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '.$v['lang'] .' - ' . $this->eb_lang['no_parent'] . '</a>';
                 } else {
                     $rel_rows .= '
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '">
+                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="primary create">
                         <i class="fa fa-clipboard" aria-hidden="true"></i> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
                     </a>';
                 }

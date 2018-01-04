@@ -1,14 +1,13 @@
 ﻿jQuery(document).ready(function($){
     $('#eB_relations').css({
             'position' : 'fixed',
-            'right' : '15px',
+            'right' : '0px',
             'bottom':'0',
-            'left':'15px',
-            'background' : '#f1f1f1',
-            'border-top':'solid 1px #dddddd',
-            'border-bottom':'solid 1px #dddddd',
-            'padding':'2px 7px',
-            'z-index':'10'
+            'left':'0px',
+            'background' : '#39515D',
+            'padding':'3px 25px',
+            'z-index':'100',
+            'color':'#e5eef5'
     });
     $('#eB_relations a').css({
             'display':'inline-block',
@@ -16,7 +15,10 @@
             'line-height':'normal',
             'padding':'6px',
             'box-sizing':'border-box',
-            'margin':'0 5px'
+            'margin':'0 5px',
+            'border-radius' : '2px',
+            'background':'#337ab7',
+            'color':'#fff'
     });
     $('#eB_relations img').css({
             'margin-right':'6px'
@@ -31,7 +33,7 @@
             'text-decoration':'none'
       });
     $('.create').css({
-           'color':'#888'
+           'color':'#e5eef5'
     });
     $('#eB_relations h3').css({
             'margin':'0',
@@ -39,7 +41,7 @@
             'font-size':'14px',
             'font-weight':'bold',
             'display':'inline-block',
-            'color':'#000',
+            'color':'#ffffff',
             'margin-right':'7px'
     });
     $("#eB_relations").parents("tr").css('display', 'none');
