@@ -74,6 +74,18 @@ $output=<<<OUT
     <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="{$lexicon_path}jquery-easyui-1.5.3/demo/demo.css">
+    <style>
+        body{padding-top:0;}
+        h1{padding:0.8rem 0;}
+        h1 .fa{color:#39515D;}
+        .panel-header{background:#39515D;}
+        .panel-title{color:#e5eef5;text-transform:uppercase;height:auto;padding:5px;font-weight:400;font-size:14px;}
+        .panel-header, .panel-body{border-color:#39515D;}
+        .datagrid-toolbar{padding-top:5px;padding-bottom:5px;}
+        .datagrid-row{color: rgba(0, 0, 0, 0.9);}
+        .datagrid-row-over{background-color: rgba(93, 109, 202, 0.16);}
+        .datagrid-row-selected{background-color: rgba(93, 109, 202, 0.16);}
+    </style>
     <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.min.js"></script>
     <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/plugins/jquery.edatagrid.js"></script>
@@ -97,10 +109,10 @@ $output=<<<OUT
 </div>
                 
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">{$_eb_lang['create']}</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">{$_eb_lang['delete']}</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">{$_eb_lang['save']}</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">{$_eb_lang['cancel']}</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')"><i class="fa fa-plus-square" aria-hidden="true" style="color:#337ab7;"></i> {$_eb_lang['create']}</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')"><i class="fa fa-floppy-o" aria-hidden="true" style="color:#5cb85c;"></i> {$_eb_lang['save']}</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')"><i class="fa fa-undo" aria-hidden="true"></i> {$_eb_lang['cancel']}</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')"><i class="fa fa-trash-o" aria-hidden="true" style="color:#e77755;"></i> {$_eb_lang['delete']}</a>
     </div>
     <script type="text/javascript">
         $(function(){
