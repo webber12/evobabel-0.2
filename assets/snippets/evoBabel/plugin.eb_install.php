@@ -1,7 +1,4 @@
 <?php
-/*
-@author of original dzhuryn https://github.com/dzhuryn
-*/
 if ($modx->event->name == 'OnManagerPageInit') {
     $M = $modx->getFullTableName('site_modules');
     $MD = $modx->getFullTableName('site_module_depobj');
@@ -9,9 +6,8 @@ if ($modx->event->name == 'OnManagerPageInit') {
     $P = $modx->getFullTableName('site_plugins');
     //id плагина
     //поиск и обновление модуля
-    $value  = $modx->db->getValue($modx->db->select('id', $M, 'name="evoBabelLexicon"'));
+    $moduleId = $modx->db->getValue($modx->db->select('id', $M, 'name="evoBabelLexicon"'));
     $moduleGuid  = $modx->db->getValue($modx->db->select('guid', $M, 'name="evoBabelLexicon"'));
-    $moduleId =  $value;
     $fields = array('enable_sharedparams' => 1);
  
     $modx->db->update($fields, $M, 'id = "' . $moduleId . '"');
