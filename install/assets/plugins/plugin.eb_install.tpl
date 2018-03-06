@@ -17,8 +17,8 @@ if ($modx->event->name == 'OnManagerPageInit') {
     $MD = $modx->getFullTableName('site_module_depobj');
     $S = $modx->getFullTableName('site_snippets');
     $P = $modx->getFullTableName('site_plugins');
-    //id плагина
-    //поиск и обновление модуля
+    //id РїР»Р°РіРёРЅР°
+    //РїРѕРёСЃРє Рё РѕР±РЅРѕРІР»РµРЅРёРµ РјРѕРґСѓР»СЏ
     $moduleId = $modx->db->getValue($modx->db->select('id', $M, 'name="evoBabelLexicon"'));
     $moduleGuid  = $modx->db->getValue($modx->db->select('guid', $M, 'name="evoBabelLexicon"'));
     $fields = array('enable_sharedparams' => 1);
@@ -35,14 +35,14 @@ if ($modx->event->name == 'OnManagerPageInit') {
         if (!empty($value)) {
               continue;
         }
-        //запись в site_module_depobj
+        //Р·Р°РїРёСЃСЊ РІ site_module_depobj
         $fields = array(
             'module' => $moduleId,
             'resource' => $snippetId,
             'type' => 40
         );
         $modx->db->insert($fields, $MD);
-        //добавляем модуль в сниппет
+        //РґРѕР±Р°РІР»СЏРµРј РјРѕРґСѓР»СЊ РІ СЃРЅРёРїРїРµС‚
         $fields = array('moduleguid' => $moduleGuid);
         $modx->db->update($fields, $S, 'id = "' . $snippetId . '"');
     }
@@ -51,7 +51,7 @@ if ($modx->event->name == 'OnManagerPageInit') {
         if (empty($pluginId)) {
             continue;
         }
-        //запись в site_module_depobj
+        //Р·Р°РїРёСЃСЊ РІ site_module_depobj
         $value = $modx->db->getValue($modx->db->select('id', $MD, 'resource="' . $pluginId . '" AND module="' . $moduleId . '"  AND type=30'));
         if (!empty($value)) {
             continue;
@@ -65,7 +65,7 @@ if ($modx->event->name == 'OnManagerPageInit') {
         $fields = array('moduleguid' => $moduleGuid);
         $modx->db->update($fields, $P, 'id = "' . $pluginId . '"');
     }
-    //удаляем плагин
+    //СѓРґР°Р»СЏРµРј РїР»Р°РіРёРЅ
     $pluginId  = $modx->db->getValue($modx->db->select('id', $P, 'name="eb_install"'));
     if (!empty($pluginId)) {
        $modx->db->delete($P, "id = $pluginId");
