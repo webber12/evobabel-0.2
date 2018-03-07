@@ -78,10 +78,10 @@ $output=<<<OUT
         body{padding-top:0;}
         h1{padding:0.8rem 0;}
         h1 .fa{color:#39515D;}
-        .panel-header{background:#39515D;}
-        .panel-title{color:#e5eef5;text-transform:uppercase;height:auto;padding:5px;font-weight:400;font-size:14px;}
-        .panel-header, .panel-body{border-color:#39515D;}
-        .datagrid-toolbar{padding-top:5px;padding-bottom:5px;}
+        .panel-header{background:#e9e9e9;}
+        .panel-title{color:#333;text-transform:uppercase;height:auto;padding:5px;font-weight:400;font-size:14px;}
+        .panel-header, .panel-body{border-color:#dddddd;}
+        .datagrid-toolbar{padding-top:5px;padding-bottom:5px;background:#ffffff;}
         .datagrid-row{color: rgba(0, 0, 0, 0.9);}
         .datagrid-row-over{background-color: rgba(93, 109, 202, 0.16);}
         .datagrid-row-selected{background-color: rgba(93, 109, 202, 0.16);}
@@ -93,7 +93,7 @@ $output=<<<OUT
     <script type="text/javascript" src="{$lexicon_path}jquery-easyui-1.5.3/locale/easyui-lang-ru.js"></script>
 </head>
 <body>
-<h1 style="padding:0;padding-bottom:20px;"><i class="fa fa-pencil-square-o"></i>EVO-LEXICONS</h1>
+<h1><i class="fa fa-pencil-square-o"></i>EVO-LEXICONS</h1>
 
 <div class="table" style="width:100%;">
     <table id="dg" title="{$_eb_lang['translation_management']}" style="min-width:750px;width:auto;height:500px"
