@@ -25,7 +25,7 @@ if ($modx->event->name == 'OnManagerPageInit') {
  
     $modx->db->update($fields, $M, 'id = "' . $moduleId . '"');
     $snippets = array('evoBabel', 'lang');
-    $plugins = array('evoBabel', 'evoBabelPlaceholders');
+    $plugins = array('evoBabel', 'evoBabelPlaceholder');
     foreach ($snippets as $snippet) {
         $snippetId  = $modx->db->getValue($modx->db->select('id', $S, 'name="' . $snippet . '"'));
         if (empty($snippetId)) {
