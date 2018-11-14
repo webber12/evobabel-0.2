@@ -1,50 +1,36 @@
-﻿jQuery(document).ready(function($){
-    $('#eB_relations').css({
-            'position' : 'fixed',
-            'right' : '0px',
-            'bottom':'0',
-            'left':'0px',
-            'background' : '#39515D',
-            'padding':'3px 25px',
-            'z-index':'100',
-            'color':'#e5eef5'
+﻿(function(){
+  document.addEventListener('DOMContentLoaded', function() {
+    var menu = document.querySelector('h1'), eb_Container = document.createElement('div'), eb_selector = document.createElement('select'), obj, eb_option;
+    
+    eb_Container.className = 'btn-group2 dropdown';
+    eb_Container.style.maxWidth = '200px';
+    menu.style.paddingLeft = '1.5rem';
+    
+    eb_selector.id='eb_seletor';
+    eb_selector.name = 'eb_seletor';
+    eb_selector.className = 'form-control';
+    eb_selector.style.backgroundColor = '#dfdfdf';
+    eb_selector.style.cursor = 'pointer';
+    
+    for (var k in eb_langs) {
+        obj = eb_langs[k];
+        eb_option = document.createElement('option');
+        eb_option.text = obj['text'];
+        eb_option.value = obj['url'];
+        if (obj['url'] == '#') {
+            eb_option.selected = true;
+        }
+        eb_selector.appendChild(eb_option);
+    }
+    
+    eb_Container.appendChild(eb_selector);
+    menu.appendChild(eb_Container);
+    
+    eb_selector.addEventListener("change", function() {
+        if (eb_selector.value != '#') {
+            location.href = eb_selector.value;
+        }
     });
-    $('#eB_relations a').css({
-            'display':'inline-block',
-            'height':'auto',
-            'line-height':'normal',
-            'padding':'6px',
-            'box-sizing':'border-box',
-            'margin':'0 5px',
-            'border-radius' : '2px',
-            'background':'#337ab7',
-            'color':'#fff'
-    });
-    $('#eB_relations img').css({
-            'margin-right':'6px'
-    });
-    $('.exists').css({
-            'background':'#32AB9A',
-            'color':'#fff',
-            'text-decoration':'none'
-    });
-    $('.eb_error').css({
-            'color':'red',
-            'text-decoration':'none'
-      });
-    $('.create').css({
-           'color':'#e5eef5'
-    });
-    $('#eB_relations h3').css({
-            'margin':'0',
-            'text-align':'center',
-            'font-size':'14px',
-            'font-weight':'bold',
-            'display':'inline-block',
-            'color':'#ffffff',
-            'margin-right':'7px'
-    });
-    $("#eB_relations").parents("tr").css('display', 'none');
-    $("#eB_relations").parents("tr").next("tr").css('display', 'none');
-    $("#eB_relations").appendTo("#tabGeneral");
-})
+
+  })
+}());

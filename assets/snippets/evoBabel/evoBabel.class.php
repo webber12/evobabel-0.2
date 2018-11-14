@@ -339,22 +339,20 @@ public function showRelations()
     //получаем связь текущей страницы
     $relation = $this->getRelations($this->id);
 
+    //json-список языков для формирования селекта в админке
+    $json = array();
+
     //если связи есть, выводим их
     if($relation){
         $rels = $this->getRelationsArray($relation);
         foreach ($this->langs as $k=>$v){
             if ($k != $this->topid) {
                 if (isset($rels[$v['alias']]) && $this->checkPage($rels[$v['alias']])) {
-                    $rel_rows .= '
-                        <a href="index.php?a=27&id=' . $rels[$v['alias']] . '" class="primary exists">
-                           <i class="fa fa-pencil-square-o" aria-hidden="true"></i> ' . $v['lang'] . ' -  ' . $this->eb_lang['jump_version'] . '
-                        </a>
-                        ';
+                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $rels[$v['alias']];
+                    $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['jump_version'];
                 } else {
-                $rel_rows .= '
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="primary create">
-                        <i class="fa fa-clipboard" aria-hidden="true"></i> ' . $v['lang'] . ' - ' . $this->eb_lang['create_version'] . '
-                    </a>';
+                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
+                    $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' - ' . $this->eb_lang['create_version'];
                 }
             }
         }
@@ -363,23 +361,20 @@ public function showRelations()
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                     $rel_rows .= '<a class="eb_error" href="index.php?a=27&id=' . $parent_id . '"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '.$v['lang'] .' - ' . $this->eb_lang['no_parent'] . '</a>';
+                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $parent_id ;
+                    $json[$rels[$v['alias']]]['text'] = $v['lang'] .' - ' . $this->eb_lang['no_parent'];
                 } else {
-                    $rel_rows .= '
-                    <a href="index.php?a=27&id=' . $this->id . '&ebabel=' . $k . '&parent=' . $parent_rels[$v['alias']] . '" class="primary create">
-                        <i class="fa fa-clipboard" aria-hidden="true"></i> '.$v['lang'] . ' -  ' . $this->eb_lang['create_version'] . '
-                    </a>';
+                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
+                    $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['create_version'];
                 }
             }
         }
     }
 
-    //общая "картина" для связей на выход
-    $out .= '<h3>' . $this->eb_lang['lang_versions'] . ': </h3>
-             <i class="fa fa-file-text" aria-hidden="true"></i> ' . $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'] . '
-            ' . $rel_rows . '
-      ';
-    return $out;
+    //возвращаем json-доступных языков и их url
+    $json[0]['url'] = "#";
+    $json[0]['text'] = $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'];
+    return '<script>var eb_langs = ' . json_encode($json) . '</script>';
 }
 
 public function synchTVs($synch_TV, $synch_template, $id)
