@@ -196,6 +196,7 @@ public function checkActivePage($id)
 //получаем активные языки сайта (опубликованные и неудаленные)
 public function getSiteLangs($lang_template_id)
 {
+    $langs = array();
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
         $langs[$row['id']]['lang'] = $row['pagetitle'];
@@ -209,6 +210,7 @@ public function getSiteLangs($lang_template_id)
 //получаем все языки сайта, в том числе удаленные и неопубликованные
 public function getAllSiteLangs($lang_template_id)
 {
+    $langs = array();
     $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " ORDER BY menuindex ASC");
     while($row = $this->getRow($q)){
         $langs[$row['id']]['lang'] = $row['pagetitle'];
@@ -247,7 +249,7 @@ public function getParentIds($id, $height = 10)
 public function getCurLangId($id)
 {
     $res = $this->getParentIds($id);
-    return $res[0];
+    return isset($res[0]) ? $res[0] : '';
 }
 
 

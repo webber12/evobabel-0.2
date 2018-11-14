@@ -48,7 +48,7 @@ if(isset($_POST['del_lang']) && is_array($_POST['del_lang'])){
 
 //получаем названия колонок
 $columns = '';
-$lang = '';
+$langs = '';
 $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName('lexicon') . " LIMIT 0,1");
 $cols = $modx->db->getColumnNames($q);
 for( $i = 0; $i < count( $cols ); $i++ ) { 
