@@ -104,6 +104,16 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
                 $modx->sendRedirect($modx->makeUrl((int)$siteLangs[$eB->id]['home']));
             }
             $curr_lang_id = $eB->getCurLangId($eB->id);
+            if (empty($curr_lang_id)) {//не смогли найти язык
+                if (isset($_SESSION['curr_lang_id'])) {//есть предыдущий, берем его
+                    $curr_lang_id = $_SESSION['curr_lang_id'];
+                } else {//нет предыдущего, берем язык "домашней страницы"
+                    $curr_lang_id = $eB->getCurLangId($modx->config['site_start']);
+                    $_SESSION['curr_lang_id'] = $curr_lang_id;
+                }
+            } else {
+                $_SESSION['curr_lang_id'] = $curr_lang_id;
+            }
             $relations = $eB->getRelations($eB->id);
             $relArray = $eB->getRelationsArray($relations);
 
