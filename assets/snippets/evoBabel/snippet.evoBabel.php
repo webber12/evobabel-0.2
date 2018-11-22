@@ -25,5 +25,6 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
         $out .= $_eb_lang['relation_tv_not_defined'];
     }
 }
-$out .= '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js"></script>';
+$out .= "<!-- evoBabel start--><style>#eb_seletor{background-color:#dfdfdf;cursor:pointer;color:#464a4c;}.darkness #eb_seletor{background-color:#202329;color:#bbbbbb;}</style>";
+$out .= '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js"></script><!-- evoBabel end-->';
 echo $out;

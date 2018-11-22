@@ -9,8 +9,6 @@
     eb_selector.id='eb_seletor';
     eb_selector.name = 'eb_seletor';
     eb_selector.className = 'form-control';
-    eb_selector.style.backgroundColor = '#dfdfdf';
-    eb_selector.style.cursor = 'pointer';
     
     for (var k in eb_langs) {
         obj = eb_langs[k];
