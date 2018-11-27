@@ -353,8 +353,8 @@ public function showRelations()
                     $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $rels[$v['alias']];
                     $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['jump_version'];
                 } else {
-                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
-                    $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' - ' . $this->eb_lang['create_version'];
+                    $json[$parent_rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
+                    $json[$parent_rels[$v['alias']]]['text'] = $v['lang'] . ' - ' . $this->eb_lang['create_version'];
                 }
             }
         }
@@ -366,8 +366,8 @@ public function showRelations()
                     $json[$parent_id]['url'] = "index.php?a=27&id=" . $parent_id ;
                     $json[$parent_id]['text'] = $v['lang'] .' - ' . $this->eb_lang['no_parent'];
                 } else {
-                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
-                    $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['create_version'];
+                    $json[$parent_rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
+                    $json[$parent_rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['create_version'];
                 }
             }
         }
