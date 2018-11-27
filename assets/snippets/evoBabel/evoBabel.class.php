@@ -363,8 +363,8 @@ public function showRelations()
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
                 if ($parent_rels[$v['alias']] == $k && $k != $parent_id && !isset($this->langs[$parent_id])) {
-                    $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $parent_id ;
-                    $json[$rels[$v['alias']]]['text'] = $v['lang'] .' - ' . $this->eb_lang['no_parent'];
+                    $json[$parent_id]['url'] = "index.php?a=27&id=" . $parent_id ;
+                    $json[$parent_id]['text'] = $v['lang'] .' - ' . $this->eb_lang['no_parent'];
                 } else {
                     $json[$rels[$v['alias']]]['url'] = "index.php?a=27&id=" . $this->id . "&ebabel=" . $k . "&parent=" . $parent_rels[$v['alias']];
                     $json[$rels[$v['alias']]]['text'] = $v['lang'] . ' -  ' . $this->eb_lang['create_version'];
