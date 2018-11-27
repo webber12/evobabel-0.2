@@ -358,7 +358,7 @@ public function showRelations()
                 }
             }
         }
-        $rel_rows .= '<input type="hidden" name="tv' . $this->rel_tv_id . '" value="' . $relation . '">';
+        //$rel_rows .= '<input type="hidden" name="tv' . $this->rel_tv_id . '" value="' . $relation . '">';
     } else {//если связей нет, то выводим ссылки на создание без проверок
         foreach ($this->langs as $k=>$v) {
             if ($k != $this->topid) {
@@ -375,8 +375,8 @@ public function showRelations()
 
     //возвращаем json-доступных языков и их url
     $json[0]['url'] = "#";
-    $json[0]['text'] = $this->langs[$this->topid]['lang'] . ' - ' . $this->eb_lang['current_version'];
-    return '<script>var eb_langs = ' . json_encode($json) . '</script>';
+    $json[0]['text'] = $this->langs[$this->topid]['lang']/* . ' - ' . $this->eb_lang['current_version']*/;
+    return  '<input type="hidden" id="eb_relations_tv" name="tv' . $this->rel_tv_id . '" value="' . $relation . '">' . '<script>var eb_langs = ' . json_encode($json) . '</script>';
 }
 
 public function synchTVs($synch_TV, $synch_template, $id)

@@ -1,34 +1,19 @@
 ﻿(function(){
   document.addEventListener('DOMContentLoaded', function() {
-    var menu = document.querySelector('h1'), eb_Container = document.createElement('div'), eb_selector = document.createElement('select'), obj, eb_option;
-    
-    eb_Container.className = 'btn-group2 dropdown';
-    eb_Container.style.maxWidth = '200px';
-    menu.style.paddingLeft = '1.5rem';
-    
-    eb_selector.id='eb_seletor';
-    eb_selector.name = 'eb_seletor';
-    eb_selector.className = 'form-control';
-    
+    var menu = document.querySelector('#actions .btn-group'), eb_Container = document.createElement('div'), obj;
+    eb_Container.className = 'btn-group2 dropdown eb_dropdown';
+    var langCurr = '', langList = '', langHtml = '';
     for (var k in eb_langs) {
         obj = eb_langs[k];
-        eb_option = document.createElement('option');
-        eb_option.text = obj['text'];
-        eb_option.value = obj['url'];
-        if (obj['url'] == '#') {
-            eb_option.selected = true;
+        if (k == '0') {
+            langCurr += '<label for="eb_checkbox" class="btn btn-secondary">' + obj['text'] + '</label><input type="checkbox" id="eb_checkbox">';
+        } else {
+            langList += '<span class="btn btn-block" onclick="location.href = \'' + obj['url'] + '\';"><span>' + obj['text'] + '</span></span>';
         }
-        eb_selector.appendChild(eb_option);
     }
-    
-    eb_Container.appendChild(eb_selector);
+    langHtml = langCurr + (langList != '' ? '<div class="dropdown-menu eb_show">' + langList + '</div>' : '');
+    eb_Container.innerHTML = langHtml;
     menu.appendChild(eb_Container);
-    
-    eb_selector.addEventListener("change", function() {
-        if (eb_selector.value != '#') {
-            location.href = eb_selector.value;
-        }
-    });
-
+    document.getElementById("eb_relations_tv").parentNode.parentNode.parentNode.style.display = 'none';
   })
 }());

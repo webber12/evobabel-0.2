@@ -25,6 +25,16 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
         $out .= $_eb_lang['relation_tv_not_defined'];
     }
 }
-$out .= "<!-- evoBabel start--><style>#eb_seletor{background-color:#dfdfdf;cursor:pointer;color:#464a4c;}.darkness #eb_seletor{background-color:#202329;color:#bbbbbb;}</style>";
+$out .= "<!-- evoBabel start-->
+    <style>
+        #eb_seletor{background-color:#dfdfdf;cursor:pointer;color:#464a4c;}.darkness #eb_seletor{background-color:#202329;color:#bbbbbb;}
+        .eb_dropdown{position:relative;float:left;}
+        .eb_dropdown label{padding-right:10px;margin:0;background:#337ab7;border-right-color:#337ab7;border-left-color:#337ab7;color:#ffffff;}
+        .eb_dropdown label:hover{background:#285e8d;color:#ffffff;}
+        .eb_dropdown label::after{font-family:FontAwesome;content:\"\\f107\";margin-left:3px;}
+        .eb_dropdown input[type='checkbox']{display:none;}
+        .eb_dropdown input#eb_checkbox:checked + .dropdown-menu {display: block;width:auto !important;}
+        .eb_dropdown .eb_show{}
+    </style>";
 $out .= '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js"></script><!-- evoBabel end-->';
 echo $out;
