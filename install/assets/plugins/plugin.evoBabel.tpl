@@ -91,7 +91,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
             $langOuter = isset($langOuter) ? $langOuter : '<div class="other_langs">[+wrapper+]</div>';
 
         //фикс для OnWebPageInit на несуществующей странице с несуществующим documentIdentifier
-        if ($modx->documentIdentifier && $modx->documentIdentifier != 0 && $modx->documentIdentifier != '0' && !empty($modx->documentIdentifier) ) {
+        if (!empty($modx->documentIdentifier)) {
 
             $out = '';
             $langs = array();
