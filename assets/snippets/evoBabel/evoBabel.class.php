@@ -197,13 +197,23 @@ public function checkActivePage($id)
 public function getSiteLangs($lang_template_id)
 {
     $langs = array();
-    $q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
+    if (!empty($this->langs)) {
+        foreach ($this->langs as $k => $v) {
+            if ($v['row']['published'] == 1 && $v['row']['deleted'] == 0) {
+                $langs[$k]['lang'] = $v['lang'];
+                $langs[$k]['name'] = $v['name'];
+                $langs[$k]['home'] = $v['home'];
+                $langs[$k]['alias'] = $v['alias'];
+            }
+        }
+    }
+    /*$q = $this->query("SELECT * FROM " . $this->content_table . " WHERE parent=0 AND template=" . $lang_template_id . " AND published=1 AND deleted=0 ORDER BY menuindex ASC");
     while ($row = $this->getRow($q)) {
         $langs[$row['id']]['lang'] = $row['pagetitle'];
         $langs[$row['id']]['name'] = $row['longtitle'];
         $langs[$row['id']]['home'] = $row['description'];
         $langs[$row['id']]['alias'] = $row['alias'];
-    }
+    }*/
     return $langs;
 }
 
@@ -217,6 +227,7 @@ public function getAllSiteLangs($lang_template_id)
         $langs[$row['id']]['name'] = $row['longtitle'];
         $langs[$row['id']]['home'] = $row['description'];
         $langs[$row['id']]['alias'] = $row['alias'];
+        $langs[$row['id']]['row'] = $row;
     }
     return $langs;
 }
@@ -240,10 +251,12 @@ public function _loadParent($id, $height)
 
 public function getParentIds($id, $height = 10)
 {
-    $parents = $this->_loadParent($id,$height);
+    $tmp = $this->modx->getParentIds($id, $height);
+    return !empty($tmp) && is_array($tmp) ? array(end($tmp)) : array();
+    /*$parents = $this->_loadParent($id,$height);
     reset($parents);
     unset($parents[key($parents)]);
-    return $parents;
+    return $parents;*/
 }
 
 public function getCurLangId($id)
