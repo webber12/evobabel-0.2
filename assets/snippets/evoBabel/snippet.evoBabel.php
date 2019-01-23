@@ -24,6 +24,8 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
     } else {
         $out .= $_eb_lang['relation_tv_not_defined'];
     }
+} else {
+    $out .= '<span id="eb_relations_tv"></span>' . '<script>var eb_langs = {};</script>';
 }
 $out .= "<!-- evoBabel start-->
     <style>
