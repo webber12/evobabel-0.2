@@ -338,6 +338,10 @@ public function makeVersion()
                 $this->saveTV($v, $this->rel_tv_id, $new_rel);
             }
         }
+        $evtOut = $this->modx->invokeEvent('OnDocDuplicate', array(
+            'id' => $this->id,
+            'new_id' => $new_id
+        ));
         return '<script type="text/javascript">location.href="index.php?a=27&id=' . $this->id . '"</script>';
     }
 }
