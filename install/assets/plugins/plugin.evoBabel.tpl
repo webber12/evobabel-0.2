@@ -166,7 +166,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
         }
             break;
         case 'OnDocDuplicate' :
-            if ($e->params['new_id']) {
+            if ($e->params['new_id'] && (empty($e->params['source']) || $e->params['source'] != 'evobabel')) {
                 $q = $modx->db->query("DELETE FROM " . $eB->tvs_table . " WHERE contentid={$e->params['new_id']} AND tmplvarid={$eB->rel_tv_id}");
             }
             break;
