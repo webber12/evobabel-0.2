@@ -340,7 +340,8 @@ public function makeVersion()
         }
         $evtOut = $this->modx->invokeEvent('OnDocDuplicate', array(
             'id' => $this->id,
-            'new_id' => $new_id
+            'new_id' => $new_id,
+            'source' => 'evobabel'
         ));
         return '<script type="text/javascript">location.href="index.php?a=27&id=' . $this->id . '"</script>';
     }
