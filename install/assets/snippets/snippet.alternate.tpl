@@ -45,7 +45,7 @@ if (!empty($langs)) {
         } else {
             $href_lang = $modx->runSnippet("lang", array("a" => "hreflang", "id" => $lang));
             $href_lang = !empty($href_lang) ? $href_lang : $lang;
-            $alter_link .= '<link rel="alternate" href="' . MODX_SITE_URL . $modx->makeUrl($docid) . '" hreflang="' . $href_lang . '" />';
+            $alter_link .= '<link rel="alternate" href="' . $modx->makeUrl($docid, '', '', 'full') . '" hreflang="' . $href_lang . '" />';
         }
     }
 }
