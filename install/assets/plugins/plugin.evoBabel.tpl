@@ -92,7 +92,7 @@ if (isset($params['rel_tv_id']) && isset($params['lang_template_id'])) {
 
         //фикс для OnWebPageInit на несуществующей странице с несуществующим documentIdentifier
         if (!empty($modx->documentIdentifier)) {
-
+			$langsList='';
             $out = '';
             $langs = array();
             $others = array();//массив других языков (кроме текущего)
