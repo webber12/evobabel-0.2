@@ -32,7 +32,7 @@ $out .= "<!-- evoBabel start-->
         .eb_dropdown{position:relative;float:left;}
         .eb_dropdown label{padding-right:10px;margin:0;background:#337ab7!important;border-right-color:#337ab7!important;border-left-color:#337ab7!important;color:#ffffff!important;}
         .eb_dropdown label:hover{background:#285e8d!important;color:#ffffff;}
-        .eb_dropdown label::after{font-family:FontAwesome;content:\"\\f107\";margin-left:3px;}
+        .eb_dropdown label::after{font-family:FontAwesome;content:\"\\f107\";margin-left:3px;font-weight: 900;font-family: 'Font Awesome\ 5 Free';}
         .eb_dropdown input[type='checkbox']{display:none;}
         .eb_dropdown input#eb_checkbox:checked + .dropdown-menu {display: block;width:auto !important;}
         .eb_dropdown .eb_show{}
