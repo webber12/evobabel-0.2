@@ -45,7 +45,11 @@ function clean($a){
                     }
                 }
                 if ($_POST['isNewRecord']) {
-                    $modx->db->insert($fields, $modx->getFullTableName('lexicon'));
+                    $id = $modx->db->insert($fields, $modx->getFullTableName('lexicon'));
+                    $res = array_merge($_POST, [ 'id' => $id ]);
+                    header("Content-Type: application/json");
+                    echo json_encode($res);
+                    exit();
                 }
                 break;
             case 'update':
