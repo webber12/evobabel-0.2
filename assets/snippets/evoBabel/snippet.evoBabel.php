@@ -6,19 +6,18 @@ if (!defined('MODX_BASE_PATH')) {die('What are you doing? Get out of here!');}
 
 $out = '';
 
-if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
+if (isset($_REQUEST['id']) && (int) $_REQUEST['id'] != 0) {
     if (!empty($params['rel_tv_id']) && !empty($params['lang_template_id'])) {
 
         include_once 'vendor/autoload.php';
-        $controller = new EvoBabel\Controllers\EvoBabelController($modx, (int)$_REQUEST['id'], $params);
+        $controller = new EvoBabel\Controllers\EvoBabelController($modx, (int) $_REQUEST['id'], $params);
 
         /*****************создаем версии********************/
-        if (isset($_GET['ebabel']) && (int)$_GET['ebabel'] != 0 && isset($_GET['parent']) && (int)$_GET['parent'] != 0) {
+        if (isset($_GET['ebabel']) && (int) $_GET['ebabel'] != 0 && isset($_GET['parent']) && (int) $_GET['parent'] != 0) {
             $res = $controller->makeVersion();
-            echo $res;//возвращаем js для переадресации на текущую страницу
+            echo $res; //возвращаем js для переадресации на текущую страницу
         }
         /*********************** конец создания версий ****************/
-
 
         // получаем отформатированный список связей для вывода
         $out .= $controller->showRelations();
@@ -28,7 +27,7 @@ if (isset($_REQUEST['id']) && (int)$_REQUEST['id'] != 0) {
 } else {
     $out .= '<span id="eb_relations_tv"></span>' . '<script>var eb_langs = {};</script>';
 }
-$out .= "<!-- evoBabel start-->
+$out .= "<!-- evoBabel start -->
     <style>
         .eb_dropdown{position:relative;float:left;}
         .eb_dropdown label{text-transform:uppercase;padding-right:10px;margin:0;background:#337ab7!important;border-right-color:#337ab7!important;border-left-color:#337ab7!important;color:#ffffff!important;}
@@ -39,5 +38,5 @@ $out .= "<!-- evoBabel start-->
         .eb_dropdown .eb_show{}
         .eb_dropdown .btn-block{text-transform:uppercase;}
     </style>";
-$out .= '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js"></script><!-- evoBabel end-->';
+$out .= '<script type="text/javascript" src="' . MODX_BASE_URL . 'assets/snippets/evoBabel/script.js?20241011"></script><!-- evoBabel end -->';
 echo $out;
