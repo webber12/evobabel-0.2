@@ -23,7 +23,7 @@ if (is_file (MODX_BASE_PATH . 'assets/snippets/evoBabel/lang/' . $translate_lang
 } else {
     include(MODX_BASE_PATH . 'assets/snippets/evoBabel/lang/ru.php');
 }
-
+$csrf = csrf_field();
 
 $sql="
 CREATE TABLE IF NOT EXISTS " . $modx->getFullTableName('lexicon') . " (
@@ -130,6 +130,7 @@ $output=<<<OUT
     <div class="create" style="padding:10px 0;">
         <p style="text-transform:uppercase;"><b>{$_eb_lang['create_new_language']}</b></p>
         <form action="" method="post" id="lang_form">
+            {$csrf}
             <div>
                 <input type="text" name="newlang" value="" style="width:300px" placeholder="{$_eb_lang['new_language_name']}">
                 <input type="submit" value="{$_eb_lang['create_new_language']}">
@@ -139,6 +140,7 @@ $output=<<<OUT
     <hr>
     <p style="text-transform:uppercase;"><b>{$_eb_lang['available_languages']}</b></p>
     <form action="" method="post" id="del_form">
+        {$csrf}
         <div>{$langs}<br><input type="submit" value="{$_eb_lang['delete_languages']}"></div>
     </form>
 
